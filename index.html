@@ -185,7 +185,7 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
 }
 @media(max-width:360px){.stat small{font-size:.68rem}.grid{gap:8px}.btn{font-size:.75rem}}
 @media(hover:none){.pill:hover,.btn:hover,.gearbtn:hover{transform:none}}
-</style><style id="del">.card{position:relative}.del{position:absolute;top:18px;right:18px;z-index:2;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);color:#e0457b;box-shadow:var(--shadow-s);transition:.2s}.del:hover{transform:scale(1.12);background:#e0457b;color:#fff}html[data-theme=dark] .del{background:rgba(40,20,70,.9);color:#ff8fbf}</style><style id="lbcss">.imgw{cursor:zoom-in}.lbox{max-width:520px;text-align:center;position:relative}.lbimg{border-radius:28px;background:linear-gradient(135deg,#fff,#fdeaff);padding:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}.lbimg img{max-width:100%;max-height:55vh;object-fit:contain}.lbox h3{font-size:1.3rem;font-weight:700;margin-bottom:8px}.lbclose{position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);color:var(--ink);box-shadow:var(--shadow-s)}.lbox .btn{padding:13px 14px;font-size:1rem}html[data-theme=dark] .lbimg{background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.2),rgba(255,255,255,.05))}html[data-theme=dark] .lbclose{background:rgba(40,20,70,.9)}</style></head>
+</style><style id="del">.card{position:relative}.del{position:absolute;top:18px;right:18px;z-index:2;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);color:#e0457b;box-shadow:var(--shadow-s);transition:.2s}.del:hover{transform:scale(1.12);background:#e0457b;color:#fff}html[data-theme=dark] .del{background:rgba(40,20,70,.9);color:#ff8fbf}</style><style id="lbcss">.imgw{cursor:zoom-in}.lbox{max-width:520px;text-align:center;position:relative}.lbimg{border-radius:28px;background:linear-gradient(135deg,#fff,#fdeaff);padding:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}.lbimg img{max-width:100%;max-height:55vh;object-fit:contain}.lbox h3{font-size:1.3rem;font-weight:700;margin-bottom:8px}.lbclose{position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);color:var(--ink);box-shadow:var(--shadow-s)}.lbox .btn{padding:13px 14px;font-size:1rem}html[data-theme=dark] .lbimg{background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.2),rgba(255,255,255,.05))}html[data-theme=dark] .lbclose{background:rgba(40,20,70,.9)}</style><script defer src="https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js"></script><style>img.emoji{height:1.15em;width:1.15em;margin:0 .06em;vertical-align:-.2em;display:inline-block}</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -637,8 +637,17 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
   setTimeout(() => { el.classList.add("on"); requestAnimationFrame(loop); }, 400);
 })();
 </script>
+<script>
+/* render emojis consistently on every device (Twemoji) */
+(() => {
+  const ids = ["grid", "lbTitle", "manage", "emojiPick", "toast"];
+  const run = el => window.twemoji && twemoji.parse(el, { folder: "svg", ext: ".svg" });
+  const mo = new MutationObserver(m => m.forEach(r => run(r.target.nodeType === 1 ? r.target : r.target.parentElement || document.body)));
+  addEventListener("load", () => ids.forEach(id => { const el = document.getElementById(id); if (el) { run(el); mo.observe(el, { childList: true, subtree: true, characterData: true }); } }));
+})();</script>
 </body>
 </html>
+
 
 
 
