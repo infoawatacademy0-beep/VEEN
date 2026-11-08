@@ -1,116 +1,178 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8"><script>try{var s=JSON.parse(localStorage.getItem("veenSettings")||"{}");var h=document.documentElement;if(s.dark!==false)h.dataset.theme="dark";if(s.butterfly===false)h.classList.add("no-bfly");if(s.sparkles===false)h.classList.add("no-spark")}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>VEEN Admin</title><link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23fff' stroke-width='3'%3E%3Cpath d='M50 48C30 6 2 12 8 38c3 13 28 18 42 12z' fill='%23ff9fd2'/%3E%3Cpath d='M50 52C34 58 12 62 20 82c7 12 26 2 30-26z' fill='%23d9b3ff'/%3E%3Cpath d='M50 48C70 6 98 12 92 38c-3 13-28 18-42 12z' fill='%23ff9fd2'/%3E%3Cpath d='M50 52C66 58 88 62 80 82c-7 12-26 2-30-26z' fill='%23d9b3ff'/%3E%3C/g%3E%3Cellipse cx='50' cy='52' rx='4' ry='20' fill='%238a5fb8'/%3E%3C/svg%3E">
+<title>VEEN Admin</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23fff' stroke-width='3'%3E%3Cpath d='M50 48C30 6 2 12 8 38c3 13 28 18 42 12z' fill='%23ff9fd2'/%3E%3Cpath d='M50 52C34 58 12 62 20 82c7 12 26 2 30-26z' fill='%23d9b3ff'/%3E%3Cpath d='M50 48C70 6 98 12 92 38c-3 13-28 18-42 12z' fill='%23ff9fd2'/%3E%3Cpath d='M50 52C66 58 88 62 80 82c-7 12-26 2-30-26z' fill='%23d9b3ff'/%3E%3C/g%3E%3Cellipse cx='50' cy='52' rx='4' ry='20' fill='%238a5fb8'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script defer src="https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js"></script>
 <style>
-:root{--ink:#5b3b6e;--ink-soft:#8a6aa0;--glass:rgba(255,255,255,.6);--glass-b:rgba(255,255,255,.85);--shadow:0 10px 30px rgba(201,150,230,.3);--shadow-s:0 4px 14px rgba(201,150,230,.25)}
+:root{--ink:#5b3b6e;--ink-soft:#8a6aa0;--glass:rgba(255,255,255,.65);--glass-b:rgba(255,255,255,.88);--shadow:0 10px 30px rgba(201,150,230,.3);--shadow-s:0 4px 14px rgba(201,150,230,.25)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Fredoka","Segoe UI",system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Noto Color Emoji";color:var(--ink);min-height:100vh;background:linear-gradient(120deg,#ffd6ec,#e8d5ff,#d6e4ff,#ffd6ec);background-size:300% 300%;animation:bg 16s ease infinite;overflow-x:hidden}
 @keyframes bg{0%,100%{background-position:0% 50%}50%{background-position:100% 50%}}
+@keyframes wob{50%{transform:scale(1.1) rotate(-6deg)}}
+@keyframes float{0%,100%{transform:translateY(0) rotate(0) scale(1)}50%{transform:translateY(-26px) rotate(25deg) scale(1.2)}}
+@keyframes pop{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
 svg.i{width:1.15em;height:1.15em;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
 button,a{font:inherit;color:inherit;cursor:pointer;border:0;background:none;text-decoration:none}
+img.emoji{height:1.15em;width:1.15em;margin:0 .06em;vertical-align:-.2em;display:inline-block}
 .glass{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1.5px solid var(--glass-b);box-shadow:var(--shadow)}
 #sparkles{position:fixed;inset:0;pointer-events:none;z-index:0}
 .sp{position:absolute;opacity:.7;animation:float 8s ease-in-out infinite}
 .sp svg{width:100%;height:100%;fill:#fff;stroke:none;filter:drop-shadow(0 0 6px rgba(255,255,255,.9))}
-@keyframes float{0%,100%{transform:translateY(0) rotate(0) scale(1)}50%{transform:translateY(-26px) rotate(25deg) scale(1.2)}}
-@keyframes pop{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
-nav{position:sticky;top:12px;z-index:50;margin:12px auto 0;max-width:820px;width:calc(100% - 24px);border-radius:28px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between}
-.logo{font-weight:700;font-size:1.5rem;letter-spacing:.12em;display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#ff7ec0,#9b7bff);-webkit-background-clip:text;background-clip:text;color:transparent}
-.logo svg{color:#ff7ec0}
-.back{display:flex;align-items:center;gap:6px;padding:9px 16px;border-radius:999px;font-weight:600;background:rgba(255,255,255,.75);box-shadow:var(--shadow-s)}
-main{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:24px 12px 50px;display:flex;flex-direction:column;gap:20px}
-.card{border-radius:32px;padding:24px;animation:pop .4s both}
-.card h2{display:flex;align-items:center;gap:8px;font-size:1.25rem;margin-bottom:6px}
-.card h2 svg{color:#ff7ec0}
-.hint{color:var(--ink-soft);font-size:.9rem;margin-bottom:10px}
-label{display:block;font-weight:600;font-size:.88rem;margin:12px 0 5px}
-.field{width:100%;padding:13px 18px;border-radius:20px;border:1.5px solid #e6d8ff;background:#fff;font:inherit;color:var(--ink);outline:none}
-.field:focus{box-shadow:0 0 0 4px rgba(201,182,255,.5)}
-.inl{display:flex;gap:8px;align-items:center}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:999px;font-weight:600;background:rgba(255,255,255,.85);box-shadow:var(--shadow-s);transition:.2s}
-.btn:hover{transform:scale(1.05)}
-.btn.primary{background:linear-gradient(135deg,#ff8cc8,#a98bff);color:#fff;padding:14px 20px;width:100%;margin-top:14px}
-.btn.sm{flex:none;padding:11px 14px}
-.btn:disabled{opacity:.6;cursor:wait}
-.drop{margin-top:6px;border:2.5px dashed #c9b6ff;border-radius:26px;padding:22px;text-align:center;color:var(--ink-soft);font-weight:500;cursor:pointer;background:rgba(255,255,255,.6);transition:.2s}
-.drop.over{background:#f1e8ff;transform:scale(1.02)}
-.drop svg{width:34px;height:34px}
-.drop img{max-height:130px;border-radius:16px;margin-top:8px}
-.msg{margin-top:10px;font-size:.9rem;font-weight:600;min-height:1.2em}
-.err{color:#d6336c}.ok{color:#2f9e6e}
-.badge{font-size:.72rem;font-weight:600;padding:4px 10px;border-radius:999px;background:linear-gradient(135deg,#ffd0e8,#dccdff)}
-.row{display:flex;align-items:center;gap:10px;padding:8px;border-radius:20px;background:rgba(255,255,255,.7);margin-bottom:8px}
-.row img{width:46px;height:46px;object-fit:contain;border-radius:14px;background:#fff}
-.row b{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
-.x{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#e0457b}
+
+/* Navbar */
+nav{position:sticky;top:12px;z-index:50;margin:12px auto 0;max-width:1060px;width:calc(100% - 24px);border-radius:30px;padding:10px 18px;display:flex;align-items:center;justify-content:space-between;gap:10px}
+.logo{font-weight:700;font-size:1.45rem;letter-spacing:.1em;display:flex;align-items:center;gap:8px;background:linear-gradient(90deg,#ff7ec0,#9b7bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav-acts{display:flex;align-items:center;gap:8px}
+.back{display:inline-flex;align-items:center;gap:6px;padding:9px 15px;border-radius:999px;font-weight:600;font-size:.9rem;background:rgba(255,255,255,.78);box-shadow:var(--shadow-s);transition:.2s}
+.back:hover{transform:translateY(-2px)}
+.back.danger{color:#e0457b}
+
+/* Main & Dashboard Layout */
+main{position:relative;z-index:1;max-width:1060px;margin:0 auto;padding:20px 12px 60px}
 .login{max-width:420px;margin:60px auto 0;text-align:center}
+.dash{display:flex;flex-direction:column;gap:18px}
+
+/* Overview Stats Banner */
+.vstats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.vstat{border-radius:26px;padding:16px 10px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:4px;animation:pop .35s both}
+.vstat .vsic{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;background:linear-gradient(135deg,#ff8cc8,#a98bff);margin-bottom:2px}
+.vstat b{font-size:1.55rem;font-weight:700;background:linear-gradient(90deg,#ff6fb5,#a07cff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.vstat small{color:var(--ink-soft);font-weight:600;font-size:.8rem}
+
+/* Tabs */
+.tabs{display:flex;gap:8px;padding:6px;border-radius:999px;width:fit-content;max-width:100%;margin:0 auto;overflow-x:auto;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tab{display:inline-flex;align-items:center;gap:7px;padding:10px 20px;border-radius:999px;font-weight:600;font-size:.95rem;color:var(--ink-soft);transition:.2s;white-space:nowrap}
+.tab.active{background:linear-gradient(135deg,#ff8cc8,#a98bff);color:#fff;box-shadow:var(--shadow-s)}
+
+/* Grid Panels */
+.tgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+.tgrid.single{grid-template-columns:1fr}
+.card{border-radius:32px;padding:24px;animation:pop .35s both}
+.card h2{display:flex;align-items:center;gap:8px;font-size:1.22rem;margin-bottom:6px}
+.card h2 svg{color:#ff7ec0}
+.hint{color:var(--ink-soft);font-size:.88rem;margin-bottom:12px;line-height:1.4}
+label{display:block;font-weight:600;font-size:.86rem;margin:12px 0 5px}
+.field{width:100%;padding:12px 16px;border-radius:18px;border:1.5px solid #e6d8ff;background:#fff;font:inherit;color:var(--ink);outline:none;transition:.2s}
+.field:focus{box-shadow:0 0 0 4px rgba(201,182,255,.45)}
+.inl{display:flex;gap:8px;align-items:center;position:relative}
+.pw-wrap{position:relative;display:flex;align-items:center}
+.pw-wrap .field{padding-right:46px}
+.pw-eye{position:absolute;right:8px;width:34px;height:34px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--ink-soft)}
+.pw-eye:hover{background:rgba(201,182,255,.25);color:var(--ink)}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:11px 18px;border-radius:999px;font-weight:600;background:rgba(255,255,255,.85);box-shadow:var(--shadow-s);transition:.2s}
+.btn:hover{transform:scale(1.03)}
+.btn.primary{background:linear-gradient(135deg,#ff8cc8,#a98bff);color:#fff;padding:13px 20px;width:100%;margin-top:14px}
+.btn.sm{flex:none;padding:11px 15px}
+.btn:disabled{opacity:.6;cursor:wait}
+
+/* Dropzone */
+.drop{margin-top:6px;border:2.5px dashed #c9b6ff;border-radius:24px;padding:22px;text-align:center;color:var(--ink-soft);font-weight:500;cursor:pointer;background:rgba(255,255,255,.6);transition:.2s}
+.drop.over{background:#f1e8ff;transform:scale(1.02)}
+.drop svg{width:34px;height:34px;margin-bottom:4px;color:#ff7ec0}
+.drop img{max-height:140px;border-radius:16px;margin-top:10px;box-shadow:var(--shadow-s)}
+
+/* Chips & Emojis */
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 13px;border-radius:999px;font-weight:600;font-size:.88rem;background:rgba(255,255,255,.75);box-shadow:var(--shadow-s)}
+.chip.custom{background:linear-gradient(135deg,#ffd0e8,#dccdff)}
+.chip button{display:flex;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;background:#fff;color:#e0457b}
+.chip button svg{width:12px;height:12px}
+.emojis{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;padding:10px;border-radius:20px;background:rgba(255,255,255,.75);box-shadow:var(--shadow-s)}
+.emojis button{width:36px;height:36px;border-radius:11px;font-size:1.3rem;line-height:1;transition:.15s}
+.emojis button:hover{background:rgba(201,182,255,.4);transform:scale(1.18)}
+
+/* Manage Stickers List */
+.mhead{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:14px}
+.mhead .search-w{flex:1;min-width:200px;position:relative;display:flex;align-items:center}
+.mhead .search-w svg{position:absolute;left:14px;color:var(--ink-soft)}
+.mhead .search-w input{padding-left:40px}
+.mlist{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px;max-height:520px;overflow-y:auto;padding-right:4px}
+.row{display:flex;align-items:center;gap:10px;padding:10px;border-radius:22px;background:rgba(255,255,255,.75);box-shadow:var(--shadow-s);transition:.2s}
+.row:hover{transform:translateY(-2px)}
+.row img{width:50px;height:50px;object-fit:contain;border-radius:14px;background:#fff;padding:4px;flex:none}
+.row-info{flex:1;min-width:0}
+.row-info b{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600;font-size:.96rem}
+.row-meta{display:flex;align-items:center;gap:8px;margin-top:4px;font-size:.76rem;color:var(--ink-soft);font-weight:600}
+.badge{font-size:.7rem;font-weight:600;padding:3px 9px;border-radius:999px;background:linear-gradient(135deg,#ffd0e8,#dccdff);color:var(--ink)}
+.x{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#fff;color:#e0457b;flex:none;transition:.2s}
+.x:hover{background:#e0457b;color:#fff;transform:scale(1.1)}
+
+.msg{margin-top:10px;font-size:.88rem;font-weight:600;min-height:1.2em}
+.err{color:#ff5c8d}.ok{color:#2f9e6e}
 .hidden{display:none!important}
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);z-index:200;padding:12px 20px;border-radius:999px;font-weight:600;transition:.35s;display:flex;gap:8px;align-items:center}
 .toast.show{transform:translateX(-50%)}
-html[data-theme=dark]{--ink:#f3e8ff;--ink-soft:#c9b0e6;--glass:rgba(52,32,86,.55);--glass-b:rgba(255,255,255,.14);--shadow:0 10px 30px rgba(0,0,0,.4);--shadow-s:0 4px 14px rgba(0,0,0,.35);color-scheme:dark}
-html[data-theme=dark] body{background:linear-gradient(120deg,#1d1033,#2d1853,#1a2050,#1d1033);background-size:300% 300%}
-html[data-theme=dark] .search input,html[data-theme=dark] .btn:not(.dl):not(.primary),html[data-theme=dark] .pill:not(.active),html[data-theme=dark] .drop,html[data-theme=dark] .row,html[data-theme=dark] .x,html[data-theme=dark] .back{background:rgba(255,255,255,.09);color:var(--ink)}
-html[data-theme=dark] .imgw,html[data-theme=dark] .row img{background:rgba(255,255,255,.08)}
-html[data-theme=dark] .field{background:#2a1a4a;border-color:#4a3475;color:var(--ink)}
-html[data-theme=dark] .box{background:rgba(38,24,66,.92)}
-html[data-theme=dark] .card,html[data-theme=dark] .stat,html[data-theme=dark] nav{border-color:rgba(255,255,255,.15)}
-html[data-theme=dark] .badge{background:linear-gradient(135deg,#6b3a74,#4b3a85);color:#fff}
-html[data-theme=dark] .sp{opacity:.35}
-html[data-theme=dark] ::-webkit-scrollbar-thumb{background:#5a3c8a}
-html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!important}</style>
-<style id="night">
-html[data-theme=dark]{--ink:#f6ecff;--ink-soft:#cdb6ea;--glass:rgba(60,36,100,.5);--glass-b:rgba(255,190,235,.22);--shadow:0 12px 36px rgba(10,0,30,.5),0 0 0 1px rgba(255,160,220,.06) inset;--shadow-s:0 4px 16px rgba(10,0,30,.45)}
+
+/* Dark Mode (Dreamy Night) */
+html[data-theme=dark]{--ink:#f6ecff;--ink-soft:#cdb6ea;--glass:rgba(60,36,100,.52);--glass-b:rgba(255,190,235,.22);--shadow:0 12px 36px rgba(10,0,30,.5),0 0 0 1px rgba(255,160,220,.06) inset;--shadow-s:0 4px 16px rgba(10,0,30,.45);color-scheme:dark}
 html[data-theme=dark] body{background:linear-gradient(135deg,#150a2e 0%,#25104a 35%,#1a1a5a 65%,#2a0f45 100%);background-size:300% 300%}
 html[data-theme=dark] body::before{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background:radial-gradient(520px 420px at 12% 18%,rgba(255,120,200,.28),transparent 70%),radial-gradient(560px 460px at 88% 30%,rgba(140,110,255,.3),transparent 70%),radial-gradient(600px 480px at 55% 95%,rgba(255,150,220,.2),transparent 70%);animation:aurora 14s ease-in-out infinite alternate}
 html[data-theme=dark] body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;background-image:radial-gradient(1.5px 1.5px at 20px 30px,#fff,transparent),radial-gradient(1.5px 1.5px at 90px 120px,#ffd6f0,transparent),radial-gradient(2px 2px at 160px 60px,#fff,transparent),radial-gradient(1.5px 1.5px at 220px 170px,#e0d0ff,transparent);background-size:260px 200px;opacity:.55;animation:twinkle 4s ease-in-out infinite alternate}
 @keyframes aurora{from{transform:translate3d(-2%,-2%,0) scale(1)}to{transform:translate3d(3%,3%,0) scale(1.12)}}
 @keyframes twinkle{from{opacity:.25}to{opacity:.7}}
 html[data-theme=dark] nav{box-shadow:0 8px 30px rgba(0,0,0,.45),0 0 24px rgba(255,120,200,.18)}
-html[data-theme=dark] .logo,html[data-theme=dark] .hero h1{filter:drop-shadow(0 0 14px rgba(255,130,210,.55))}
-html[data-theme=dark] .hero h1{text-shadow:none;background-image:linear-gradient(90deg,#ff9ad5,#b9a2ff,#ff9ad5)}
-html[data-theme=dark] .stat b{filter:drop-shadow(0 0 8px rgba(255,130,210,.5))}
-html[data-theme=dark] .card{background:linear-gradient(160deg,rgba(80,48,130,.55),rgba(40,24,78,.55))}
-html[data-theme=dark] .card:hover{box-shadow:0 14px 40px rgba(255,110,200,.28),0 0 0 1.5px rgba(255,160,220,.45)}
-html[data-theme=dark] .imgw{background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.2),rgba(255,255,255,.05))}
-html[data-theme=dark] .imgw img{filter:drop-shadow(0 6px 12px rgba(0,0,0,.4))}
-html[data-theme=dark] .pill:not(.active):hover,html[data-theme=dark] .btn:not(.dl):not(.primary):hover{box-shadow:0 0 18px rgba(255,130,210,.35)}
-html[data-theme=dark] .pill.active,html[data-theme=dark] .btn.dl,html[data-theme=dark] .btn.primary{box-shadow:0 0 22px rgba(255,120,200,.5)}
-html[data-theme=dark] .btn.like.on{color:#ff7fc0}html[data-theme=dark] .btn.like.on svg{fill:#ff7fc0}
-html[data-theme=dark] .search input::placeholder,html[data-theme=dark] .field::placeholder{color:#a78ec6}
-html[data-theme=dark] .search input:focus,html[data-theme=dark] .field:focus{box-shadow:0 0 0 4px rgba(255,130,210,.3)}
+html[data-theme=dark] .logo{filter:drop-shadow(0 0 14px rgba(255,130,210,.55))}
+html[data-theme=dark] .card,html[data-theme=dark] .vstat{background:linear-gradient(160deg,rgba(80,48,130,.55),rgba(40,24,78,.55))}
+html[data-theme=dark] .btn:not(.primary),html[data-theme=dark] .drop,html[data-theme=dark] .row,html[data-theme=dark] .x,html[data-theme=dark] .back,html[data-theme=dark] .chip,html[data-theme=dark] .emojis{background:rgba(255,255,255,.09);color:var(--ink)}
+html[data-theme=dark] .back.danger,html[data-theme=dark] .x{color:#ff85ae}
+html[data-theme=dark] .x:hover{background:#ff5c8d;color:#fff}
+html[data-theme=dark] .row img{background:rgba(255,255,255,.08)}
+html[data-theme=dark] .field{background:#231442;border-color:#4a3475;color:var(--ink)}
+html[data-theme=dark] .field::placeholder{color:#a78ec6}
+html[data-theme=dark] .field:focus{box-shadow:0 0 0 4px rgba(255,130,210,.3)}
+html[data-theme=dark] .badge,html[data-theme=dark] .chip.custom{background:linear-gradient(135deg,#6b3a74,#4b3a85);color:#fff}
+html[data-theme=dark] .btn.primary,html[data-theme=dark] .tab.active{box-shadow:0 0 22px rgba(255,120,200,.45)}
 html[data-theme=dark] .sp{opacity:.55}html[data-theme=dark] .sp svg{fill:#ffd6f0;filter:drop-shadow(0 0 8px #ff9ad5)}
 html[data-theme=dark] #bfly{filter:drop-shadow(0 0 12px rgba(255,140,220,.8))}
 html[data-theme=dark] .trail{color:#ff9ad5;filter:drop-shadow(0 0 4px #ff9ad5)}
-html[data-theme=dark] .modal{background:rgba(8,2,24,.6)}
-html[data-theme=dark] .box{background:linear-gradient(160deg,rgba(60,36,100,.95),rgba(30,18,60,.95));border-color:rgba(255,160,220,.25)}
-html[data-theme=dark] .sw{background:#4a3a72}
-html[data-theme=dark] .toast{background:rgba(60,36,100,.9)}
-html[data-theme=dark] footer{color:var(--ink-soft)}
+html[data-theme=dark] .toast{background:rgba(60,36,100,.92)}
 html[data-theme=dark] .drop{border-color:#8f74d8}html[data-theme=dark] .drop.over{background:rgba(255,255,255,.16)}
-</style><style>@keyframes wob{50%{transform:scale(1.1) rotate(-6deg)}}</style><style id="mobile">
-@media(max-width:700px){
-  nav{top:8px;margin-top:8px;padding:8px 12px;width:calc(100% - 16px);gap:6px}
-  .logo{font-size:1.1rem;letter-spacing:.05em;gap:6px}
-  .logo img{width:26px;height:26px}
-  .back{padding:9px 12px;font-size:.85rem}
-  main{padding:16px 10px calc(50px + env(safe-area-inset-bottom));gap:14px}
-  .card{padding:18px 16px;border-radius:28px}
-  .card h2{font-size:1.1rem}
-  .login{margin-top:30px}
-  .field{font-size:16px}
-  .inl{flex-wrap:wrap}
-  .inl .field{flex:1 1 100%}
-  .row{gap:8px;padding:8px}
-  .row .badge{display:none}
-  #bfly{width:54px;height:54px}
-  .toast{max-width:calc(100% - 24px);bottom:calc(20px + env(safe-area-inset-bottom))}
+html[data-theme=dark] .ok{color:#5ee8a8}
+html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!important}
+
+/* Butterfly */
+#bfly{position:fixed;left:0;top:0;width:78px;height:78px;z-index:60;pointer-events:none;opacity:0;transition:opacity 1s;filter:drop-shadow(0 6px 8px rgba(190,120,220,.35))}
+#bfly.on{opacity:1}#bfly.scared .w{animation-duration:.08s}
+#bfly svg{width:100%;height:100%;overflow:visible}
+#bfly .w{transform-origin:50px 50px;animation:flap .32s ease-in-out infinite alternate}
+@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.18)}}
+.trail{position:fixed;z-index:59;pointer-events:none;width:14px;height:14px;color:#ff8cc8;animation:fade 1s forwards}
+.trail svg{width:100%;height:100%;fill:currentColor}
+@keyframes fade{to{opacity:0;transform:translateY(24px) scale(.2) rotate(40deg)}}
+
+/* Responsive */
+@media(max-width:840px){
+  .tgrid{grid-template-columns:1fr}
+  .vstats{grid-template-columns:repeat(3,1fr)}
 }
-@media(hover:none){.btn:hover{transform:none}}
-</style><style>.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;font-weight:600;font-size:.9rem;background:rgba(255,255,255,.7);box-shadow:var(--shadow-s)}.chip.custom{background:linear-gradient(135deg,#ffd0e8,#dccdff)}.chip button{display:flex;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;background:#fff;color:#e0457b}.chip button svg{width:12px;height:12px}html[data-theme=dark] .chip{background:rgba(255,255,255,.09)}html[data-theme=dark] .chip.custom{background:linear-gradient(135deg,#6b3a74,#4b3a85)}</style><style>.vstats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}.vstat{border-radius:24px;padding:14px 8px;text-align:center;background:rgba(255,255,255,.7);box-shadow:var(--shadow-s)}.vstat b{display:block;font-size:1.7rem;font-weight:700;background:linear-gradient(90deg,#ff6fb5,#a07cff);-webkit-background-clip:text;background-clip:text;color:transparent}.vstat small{color:var(--ink-soft);font-weight:600}html[data-theme=dark] .vstat{background:rgba(255,255,255,.09)}</style><style>.emojis{display:flex;flex-wrap:wrap;gap:4px;margin-top:8px;padding:10px;border-radius:22px;background:rgba(255,255,255,.7);box-shadow:var(--shadow-s)}.emojis button{width:38px;height:38px;border-radius:12px;font-size:1.35rem;line-height:1;transition:.15s}.emojis button:hover{background:rgba(201,182,255,.4);transform:scale(1.2)}html[data-theme=dark] .emojis{background:rgba(255,255,255,.09)}</style><script defer src="https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js"></script><style>img.emoji{height:1.15em;width:1.15em;margin:0 .06em;vertical-align:-.2em;display:inline-block}</style></head>
+@media(max-width:600px){
+  nav{top:8px;margin-top:8px;padding:8px 12px;width:calc(100% - 16px)}
+  .logo{font-size:1.1rem;letter-spacing:.04em;gap:6px}
+  .logo img{width:26px;height:26px}
+  .back{padding:8px 11px;font-size:.82rem}
+  .back span{display:none}
+  main{padding:14px 10px calc(50px + env(safe-area-inset-bottom))}
+  .vstats{grid-template-columns:repeat(2,1fr);gap:8px}
+  .vstat:last-child{grid-column:1/-1}
+  .vstat{padding:12px 8px;border-radius:22px}
+  .vstat b{font-size:1.3rem}
+  .tabs{width:100%;justify-content:space-between}
+  .tab{flex:1;justify-content:center;padding:9px 12px;font-size:.86rem}
+  .card{padding:18px 15px;border-radius:26px}
+  .field{font-size:16px}
+  .mlist{grid-template-columns:1fr}
+  #bfly{width:54px;height:54px}
+}
+@media(hover:none){.btn:hover,.back:hover,.row:hover{transform:none}}
+</style>
+</head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></symbol>
@@ -118,108 +180,162 @@ html[data-theme=dark] .drop{border-color:#8f74d8}html[data-theme=dark] .drop.ove
 <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></symbol>
 <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
-<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.400 15a1.700 1.700 0 0 0 .3 1.800l.1.1a2 2 0 1 1-2.800 2.800l-.1-.1a1.700 1.700 0 0 0-1.800-.3 1.700 1.700 0 0 0-1 1.500V21a2 2 0 1 1-4 0v-.1a1.700 1.700 0 0 0-1.100-1.500 1.700 1.700 0 0 0-1.800.3l-.1.1a2 2 0 1 1-2.800-2.800l.1-.1a1.700 1.700 0 0 0 .3-1.800 1.700 1.700 0 0 0-1.500-1H3a2 2 0 1 1 0-4h.1a1.700 1.700 0 0 0 1.500-1.100 1.700 1.700 0 0 0-.3-1.800l-.1-.1a2 2 0 1 1 2.800-2.800l.1.1a1.700 1.700 0 0 0 1.800.3H9a1.700 1.700 0 0 0 1-1.500V3a2 2 0 1 1 4 0v.1a1.700 1.700 0 0 0 1 1.500 1.700 1.700 0 0 0 1.800-.3l.1-.1a2 2 0 1 1 2.800 2.800l-.1.1a1.700 1.700 0 0 0-.3 1.800V9a1.700 1.700 0 0 0 1.500 1H21a2 2 0 1 1 0 4h-.1a1.700 1.700 0 0 0-1.500 1z"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.800A9 9 0 1 1 11.200 3a7 7 0 0 0 9.800 9.800z"/></symbol><symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.600 13.400l-7.200 7.200a2 2 0 0 1-2.800 0L2 12V2h10l8.600 8.600a2 2 0 0 1 0 2.800zM7 7h.01"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.900M16 3.100a4 4 0 0 1 0 7.800"/></symbol><symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.500 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></symbol>
+<symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.6 13.4l-7.2 7.2a2 2 0 0 1-2.8 0L2 12V2h10l8.6 8.6a2 2 0 0 1 0 2.8zM7 7h.01"/></symbol>
+<symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></symbol>
+<symbol id="i-smile" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
 <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
-<symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.500" cy="15.500" r="4.500"/><path d="M10.700 12.300L21 2M16 7l3 3"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.5" cy="15.5" r="4.5"/><path d="M10.7 12.3L21 2M16 7l3 3"/></symbol>
 <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></symbol>
 <symbol id="i-eye" viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></symbol>
 <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></symbol>
-<symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.700L3 8M3 3v5h5"/></symbol>
+<symbol id="i-reset" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8M3 3v5h5"/></symbol>
 <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2zM17 21v-8H7v8M7 3v5h8"/></symbol>
+<symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></symbol>
+<symbol id="i-dl" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></symbol>
+<symbol id="i-heart" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></symbol>
+<symbol id="i-logout" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4M16 17l5-5-5-5M21 12H9"/></symbol>
 </defs></svg>
 <div id="sparkles"></div>
 
 <nav class="glass">
   <div class="logo"><img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cg stroke='%23fff' stroke-width='3'%3E%3Cpath d='M50 48C30 6 2 12 8 38c3 13 28 18 42 12z' fill='%23ff9fd2'/%3E%3Cpath d='M50 52C34 58 12 62 20 82c7 12 26 2 30-26z' fill='%23d9b3ff'/%3E%3Cpath d='M50 48C70 6 98 12 92 38c-3 13-28 18-42 12z' fill='%23ff9fd2'/%3E%3Cpath d='M50 52C66 58 88 62 80 82c-7 12-26 2-30-26z' fill='%23d9b3ff'/%3E%3C/g%3E%3Cellipse cx='50' cy='52' rx='4' ry='20' fill='%238a5fb8'/%3E%3C/svg%3E" alt="" width="34" height="34" style="animation:wob 2.4s ease-in-out infinite">VEEN Admin</div>
-  <button class="back" id="theme" aria-label="Dark mode"><svg class="i"><use href="#i-moon"/></svg>Dark</button>
-  <a class="back" href="index.html"><svg class="i"><use href="#i-back"/></svg>Gallery</a>
+  <div class="nav-acts">
+    <button class="back" id="theme" aria-label="Toggle theme"><svg class="i"><use href="#i-moon"/></svg><span>Theme</span></button>
+    <button class="back danger hidden" id="logoutBtn" aria-label="Lock admin"><svg class="i"><use href="#i-logout"/></svg><span>Lock</span></button>
+    <a class="back" href="index.html"><svg class="i"><use href="#i-back"/></svg><span>Gallery</span></a>
+  </div>
 </nav>
 
 <main>
-  <!-- Login -->
+  <!-- Login Card -->
   <section class="card glass login" id="login">
     <h2 style="justify-content:center"><svg class="i"><use href="#i-lock"/></svg>Admin Login</h2>
-    <p class="hint">Enter the password to continue</p>
-    <input class="field" id="pw" type="password" placeholder="Password" autocomplete="current-password">
+    <p class="hint">Enter your admin password to unlock the dashboard</p>
+    <div class="pw-wrap">
+      <input class="field" id="pw" type="password" placeholder="Password" autocomplete="current-password">
+      <button type="button" class="pw-eye" data-toggle="pw" aria-label="Show password"><svg class="i"><use href="#i-eye"/></svg></button>
+    </div>
     <div class="msg err" id="authMsg"></div>
-    <button class="btn primary" id="pwGo">Unlock</button>
+    <button class="btn primary" id="pwGo">Unlock Dashboard</button>
   </section>
 
-  <div id="panel" class="hidden" style="display:contents">
-    <!-- Settings -->
-    <section class="card glass">
-      <h2><svg class="i"><use href="#i-key"/></svg>ImgBB API Key</h2>
-      <p class="hint">Paste any ImgBB key you like. It is saved in Firebase, replaces the old key, and is used for all new uploads.</p>
-      <div class="inl">
-        <input class="field" id="aKey" type="text" placeholder="ImgBB API key" spellcheck="false" autocomplete="off">
-        <button class="btn sm" id="eye" aria-label="Show or hide key"><svg class="i"><use href="#i-eye"/></svg></button>
-      </div>
-      <div class="inl" style="margin-top:12px">
-        <button class="btn" id="keySave" style="flex:1;background:linear-gradient(135deg,#ff8cc8,#a98bff);color:#fff"><svg class="i"><use href="#i-save"/></svg>Save key</button>
-        <button class="btn" id="keyReset"><svg class="i"><use href="#i-reset"/></svg>Default</button>
-      </div>
-      <div class="msg" id="keyMsg"></div>
-    </section>
+  <!-- Dashboard -->
+  <div id="panel" class="dash hidden">
+    <!-- Top Stats Overview -->
+    <div class="vstats">
+      <div class="vstat glass"><span class="vsic"><svg class="i"><use href="#i-users"/></svg></span><b id="vTotal">0</b><small>Total Visitors</small></div>
+      <div class="vstat glass"><span class="vsic"><svg class="i"><use href="#i-sparkle"/></svg></span><b id="vToday">0</b><small>Today</small></div>
+      <div class="vstat glass"><span class="vsic"><svg class="i"><use href="#i-users"/></svg></span><b id="vWeek">0</b><small>Last 7 Days</small></div>
+      <div class="vstat glass"><span class="vsic"><svg class="i"><use href="#i-grid"/></svg></span><b id="vStickers">0</b><small>Stickers</small></div>
+      <div class="vstat glass"><span class="vsic"><svg class="i"><use href="#i-dl"/></svg></span><b id="vDownloads">0</b><small>Downloads</small></div>
+    </div>
 
-    <!-- Visitors -->
-    <section class="card glass">
-      <h2><svg class="i"><use href="#i-users"/></svg>Website Visitors</h2>
-      <p class="hint">Only you can see this. Each visitor is counted once per browser session.</p>
-      <div class="vstats">
-        <div class="vstat"><b id="vTotal">0</b><small>Total visitors</small></div>
-        <div class="vstat"><b id="vToday">0</b><small>Today</small></div>
-        <div class="vstat"><b id="vWeek">0</b><small>Last 7 days</small></div>
-      </div>
-    </section>
-    <!-- Password -->
-    <section class="card glass">
-      <h2><svg class="i"><use href="#i-lock"/></svg>Change Password</h2>
-      <p class="hint">The new password works on every device. Use at least 6 characters.</p>
-      <label for="pwOld">Current password</label>
-      <input class="field" id="pwOld" type="password" autocomplete="current-password">
-      <label for="pwNew">New password</label>
-      <input class="field" id="pwNew" type="password" autocomplete="new-password">
-      <label for="pwNew2">Repeat new password</label>
-      <input class="field" id="pwNew2" type="password" autocomplete="new-password">
-      <div class="msg" id="pwMsg"></div>
-      <button class="btn primary" id="pwChange"><svg class="i"><use href="#i-save"/></svg>Update password</button>
-    </section>
-    <!-- Tags -->
-    <section class="card glass">
-      <h2><svg class="i"><use href="#i-tag"/></svg>Tags (Categories)</h2>
-      <p class="hint">Add your own tags. They appear as filter pills in the gallery and in the upload dropdown.</p>
-      <div class="inl">
-        <input class="field" id="newCat" maxlength="24" placeholder="New tag name">
-        <button class="btn sm" id="addCat" style="background:linear-gradient(135deg,#ff8cc8,#a98bff);color:#fff">Add</button>
-      </div>
-      <div class="msg" id="catMsg"></div>
-      <div id="catList" class="chips"></div>
-    </section>
-    <!-- Upload -->
-    <section class="card glass">
-      <h2><svg class="i"><use href="#i-upload"/></svg>Add a Sticker</h2>
-      <label for="aTitle">Title</label>
-      <div class="inl"><input class="field" id="aTitle" placeholder="Sticker title (emojis are supported)" maxlength="60"><button type="button" class="btn sm" id="emojiBtn" aria-label="Emoji picker"><svg class="i"><use href="#i-smile"/></svg></button></div>
-      <div id="emojiPick" class="emojis hidden"></div>
-      <label for="aCat">Category</label>
-      <select class="field" id="aCat"></select>
-      <label>Image</label>
-      <div class="drop" id="drop">
-        <svg class="i"><use href="#i-image"/></svg>
-        <div id="dropTxt">Drag and drop an image here, or click to browse</div>
-        <img id="prev" class="hidden" alt="Preview">
-      </div>
-      <input type="file" id="file" accept="image/*" class="hidden">
-      <div class="msg" id="upMsg"></div>
-      <button class="btn primary" id="pub"><svg class="i"><use href="#i-upload"/></svg>Publish Sticker</button>
-    </section>
+    <!-- Navigation Tabs -->
+    <div class="tabs glass" id="tabs">
+      <button class="tab active" data-tab="t-content"><svg class="i"><use href="#i-upload"/></svg>Publish &amp; Tags</button>
+      <button class="tab" data-tab="t-manage"><svg class="i"><use href="#i-grid"/></svg>Manage Stickers</button>
+      <button class="tab" data-tab="t-security"><svg class="i"><use href="#i-lock"/></svg>Security &amp; API</button>
+    </div>
 
-    <!-- Manage -->
-    <section class="card glass">
-      <h2><svg class="i"><use href="#i-grid"/></svg>Manage Stickers</h2>
-      <p class="hint">Tap the bin to remove a sticker for everyone.</p>
-      <div id="manage"></div>
-    </section>
+    <!-- TAB 1: Publish & Tags -->
+    <div class="tgrid" id="t-content">
+      <section class="card glass">
+        <h2><svg class="i"><use href="#i-upload"/></svg>Publish New Sticker</h2>
+        <p class="hint">Upload an image to ImgBB and add it to the live sticker gallery.</p>
+        <label for="aTitle">Sticker Title</label>
+        <div class="inl">
+          <input class="field" id="aTitle" placeholder="Sticker title (emojis supported)" maxlength="60">
+          <button type="button" class="btn sm" id="emojiBtn" aria-label="Emoji picker"><svg class="i"><use href="#i-smile"/></svg></button>
+        </div>
+        <div id="emojiPick" class="emojis hidden"></div>
+        <label for="aCat">Category Tag</label>
+        <select class="field" id="aCat"></select>
+        <label>Sticker Image</label>
+        <div class="drop" id="drop">
+          <svg class="i"><use href="#i-image"/></svg>
+          <div id="dropTxt">Drag and drop an image here, or click to browse</div>
+          <img id="prev" class="hidden" alt="Preview">
+        </div>
+        <input type="file" id="file" accept="image/*" class="hidden">
+        <div class="msg" id="upMsg"></div>
+        <button class="btn primary" id="pub"><svg class="i"><use href="#i-upload"/></svg>Publish Sticker</button>
+      </section>
+
+      <section class="card glass">
+        <h2><svg class="i"><use href="#i-tag"/></svg>Manage Tags (Categories)</h2>
+        <p class="hint">Create custom category tags. They appear immediately on the home page filter bar and in the upload list.</p>
+        <div class="inl">
+          <input class="field" id="newCat" maxlength="24" placeholder="New tag name...">
+          <button class="btn sm" id="addCat" style="background:linear-gradient(135deg,#ff8cc8,#a98bff);color:#fff">Add Tag</button>
+        </div>
+        <div class="msg" id="catMsg"></div>
+        <div id="catList" class="chips"></div>
+      </section>
+    </div>
+
+    <!-- TAB 2: Manage Stickers -->
+    <div class="tgrid single hidden" id="t-manage">
+      <section class="card glass">
+        <div class="mhead">
+          <div>
+            <h2><svg class="i"><use href="#i-grid"/></svg>All Stickers (<span id="mCount">0</span>)</h2>
+            <p class="hint" style="margin:0">Search or delete stickers from the gallery.</p>
+          </div>
+          <div class="search-w">
+            <svg class="i"><use href="#i-search"/></svg>
+            <input class="field" id="mSearch" placeholder="Search by title or tag...">
+          </div>
+        </div>
+        <div class="mlist" id="manage"></div>
+      </section>
+    </div>
+
+    <!-- TAB 3: Security & API -->
+    <div class="tgrid hidden" id="t-security">
+      <section class="card glass">
+        <h2><svg class="i"><use href="#i-lock"/></svg>Change Admin Password</h2>
+        <p class="hint">Update your admin password. It is saved securely as a hash in Firebase and works across all devices.</p>
+        <label for="pwOld">Current Password</label>
+        <div class="pw-wrap">
+          <input class="field" id="pwOld" type="password" placeholder="Enter current password" autocomplete="current-password">
+          <button type="button" class="pw-eye" data-toggle="pwOld" aria-label="Show password"><svg class="i"><use href="#i-eye"/></svg></button>
+        </div>
+        <label for="pwNew">New Password</label>
+        <div class="pw-wrap">
+          <input class="field" id="pwNew" type="password" placeholder="At least 4 characters" autocomplete="new-password">
+          <button type="button" class="pw-eye" data-toggle="pwNew" aria-label="Show password"><svg class="i"><use href="#i-eye"/></svg></button>
+        </div>
+        <label for="pwNew2">Confirm New Password</label>
+        <div class="pw-wrap">
+          <input class="field" id="pwNew2" type="password" placeholder="Repeat new password" autocomplete="new-password">
+          <button type="button" class="pw-eye" data-toggle="pwNew2" aria-label="Show password"><svg class="i"><use href="#i-eye"/></svg></button>
+        </div>
+        <div class="msg" id="pwMsg"></div>
+        <div class="inl" style="margin-top:14px">
+          <button class="btn primary" id="pwChange" style="margin:0;flex:1"><svg class="i"><use href="#i-save"/></svg>Save New Password</button>
+          <button class="btn sm" id="pwReset" title="Reset to default (01vene01)"><svg class="i"><use href="#i-reset"/></svg>Default</button>
+        </div>
+      </section>
+
+      <section class="card glass">
+        <h2><svg class="i"><use href="#i-key"/></svg>ImgBB API Key</h2>
+        <p class="hint">Your ImgBB API key is synced with Firebase and used whenever you upload new stickers.</p>
+        <label for="aKey">Active API Key</label>
+        <div class="pw-wrap">
+          <input class="field" id="aKey" type="text" placeholder="ImgBB API key" spellcheck="false" autocomplete="off">
+          <button type="button" class="pw-eye" data-toggle="aKey" aria-label="Show or hide key"><svg class="i"><use href="#i-eye"/></svg></button>
+        </div>
+        <div class="msg" id="keyMsg"></div>
+        <div class="inl" style="margin-top:14px">
+          <button class="btn primary" id="keySave" style="margin:0;flex:1"><svg class="i"><use href="#i-save"/></svg>Save API Key</button>
+          <button class="btn sm" id="keyReset"><svg class="i"><use href="#i-reset"/></svg>Default</button>
+        </div>
+      </section>
+    </div>
   </div>
 </main>
 <div class="toast glass" id="toast"></div>
@@ -244,12 +360,12 @@ const stickersRef = ref(db, "stickers");
 const ADMIN_PASSWORD = "01vene01";
 const DEFAULT_KEY = "d2b78a9c4e5f6a7b8c9d0e1f2a3b4c5d";
 const BASE_CATS = ["Love", "Cute Animals", "Reactions", "Aesthetic"];
-let customCats = [];
+let customCats = [], allStickers = [];
 const $ = id => document.getElementById(id);
 const icon = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 
-/* sparkles */
+/* Sparkles */
 for (let i = 0; i < 16; i++) {
   const d = document.createElement("div"), s = 12 + Math.random() * 26;
   d.className = "sp";
@@ -263,38 +379,127 @@ function toast(msg, ic = "check") {
   clearTimeout(tt); tt = setTimeout(() => t.classList.remove("show"), 2600);
 }
 
-/* theme */
+/* Theme toggle */
 $("theme").addEventListener("click", () => {
   const s = JSON.parse(localStorage.getItem("veenSettings") || "{}"); s.dark = s.dark === false;
   localStorage.setItem("veenSettings", JSON.stringify(s));
   if (s.dark) document.documentElement.dataset.theme = "dark"; else delete document.documentElement.dataset.theme;
 });
 
-/* login (session-based) */
-function showPanel() { $("login").classList.add("hidden"); $("panel").classList.remove("hidden"); }
+/* Show / hide password toggles */
+document.querySelectorAll("[data-toggle]").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const inp = $(btn.dataset.toggle);
+    inp.type = inp.type === "password" ? "text" : "password";
+  });
+});
+
+/* Tabs navigation */
+$("tabs").addEventListener("click", e => {
+  const b = e.target.closest(".tab"); if (!b) return;
+  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t === b));
+  ["t-content", "t-manage", "t-security"].forEach(id => $(id).classList.toggle("hidden", id !== b.dataset.tab));
+});
+
+/* Login & Password Hashing (works on HTTPS and local file://) */
+function showPanel() {
+  $("login").classList.add("hidden");
+  $("panel").classList.remove("hidden");
+  $("logoutBtn").classList.remove("hidden");
+}
 if (sessionStorage.getItem("veenAdmin") === "1") showPanel();
+
+$("logoutBtn").addEventListener("click", () => {
+  sessionStorage.removeItem("veenAdmin");
+  $("panel").classList.add("hidden");
+  $("logoutBtn").classList.add("hidden");
+  $("login").classList.remove("hidden");
+  $("pw").value = "";
+  toast("Admin locked", "lock");
+});
+
 const pwRef = ref(db, "settings/adminHash");
+const pwPlainRef = ref(db, "settings/adminPass");
 async function sha(text) {
-  if (!crypto?.subtle) throw new Error("Secure context required");
-  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("veen:" + text));
-  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+  if (crypto?.subtle) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("veen:" + text));
+    return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+  }
+  let h1 = 0xdeadbeef, h2 = 0x41c6ce57, str = "veen:" + text;
+  for (let i = 0; i < str.length; i++) {
+    const ch = str.charCodeAt(i);
+    h1 = Math.imul(h1 ^ ch, 2654435761);
+    h2 = Math.imul(h2 ^ ch, 1597334677);
+  }
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
+  return (h2 >>> 0).toString(16).padStart(8, "0") + (h1 >>> 0).toString(16).padStart(8, "0");
 }
-/* the password is stored in Firebase only as a hash; until it is changed the default password works */
+
+let cachedHash = localStorage.getItem("veenAdminHash") || null;
+onValue(pwRef, snap => {
+  cachedHash = snap.val() || null;
+  if (cachedHash) localStorage.setItem("veenAdminHash", cachedHash);
+  else localStorage.removeItem("veenAdminHash");
+});
+
 async function checkPassword(pw) {
-  const stored = (await get(pwRef)).val();
-  return (await sha(pw)) === (stored || await sha(ADMIN_PASSWORD));
+  let stored = cachedHash;
+  try { stored = (await get(pwRef)).val(); } catch {}
+  if (!stored) return pw === ADMIN_PASSWORD;
+  return (await sha(pw)) === stored;
 }
+
 async function tryLogin() {
-  const m = $("authMsg"); m.textContent = "";
+  const m = $("authMsg"), v = $("pw").value;
+  m.textContent = "";
+  if (!v) return m.textContent = "Please enter the password.";
   try {
-    if (await checkPassword($("pw").value)) { sessionStorage.setItem("veenAdmin", "1"); showPanel(); }
-    else m.textContent = "Incorrect password.";
-  } catch { m.textContent = "Could not check the password. Check your connection."; }
+    if (await checkPassword(v)) {
+      sessionStorage.setItem("veenAdmin", "1");
+      showPanel();
+      toast("Welcome back!", "sparkle");
+    } else m.textContent = "Incorrect password.";
+  } catch { m.textContent = "Could not verify password."; }
 }
 $("pwGo").addEventListener("click", tryLogin);
 $("pw").addEventListener("keydown", e => e.key === "Enter" && tryLogin());
 
-/* API key settings (stored in Firebase at /settings/imgbbKey, shared across all devices) */
+/* Change Password */
+const pwMsg = (t, c = "err") => { $("pwMsg").textContent = t; $("pwMsg").className = "msg " + c; };
+$("pwChange").addEventListener("click", async () => {
+  const o = $("pwOld").value, n = $("pwNew").value, n2 = $("pwNew2").value;
+  if (!o || !n || !n2) return pwMsg("Please fill in all password fields.");
+  if (n.length < 4) return pwMsg("New password must be at least 4 characters.");
+  if (n !== n2) return pwMsg("New passwords do not match.");
+  const b = $("pwChange"); b.disabled = true;
+  try {
+    if (!(await checkPassword(o))) {
+      pwMsg("Current password is incorrect.");
+    } else {
+      const h = await sha(n);
+      await set(pwRef, h);
+      cachedHash = h; localStorage.setItem("veenAdminHash", h);
+      ["pwOld", "pwNew", "pwNew2"].forEach(id => $(id).value = "");
+      pwMsg("Password updated! Use the new password next time you log in.", "ok");
+      toast("Password changed", "check");
+    }
+  } catch { pwMsg("Could not save to Firebase. Check database rules for /settings."); }
+  b.disabled = false;
+});
+
+$("pwReset").addEventListener("click", async () => {
+  if (!confirm("Reset admin password back to default (01vene01)?")) return;
+  try {
+    await remove(pwRef);
+    cachedHash = null; localStorage.removeItem("veenAdminHash");
+    ["pwOld", "pwNew", "pwNew2"].forEach(id => $(id).value = "");
+    pwMsg("Password reset to default (01vene01).", "ok");
+    toast("Default password restored", "reset");
+  } catch { pwMsg("Could not reset password in Firebase."); }
+});
+
+/* ImgBB API Key Settings */
 const keyRef = ref(db, "settings/imgbbKey");
 let currentKey = localStorage.getItem("veenImgbbKey") || DEFAULT_KEY;
 const getKey = () => currentKey;
@@ -305,13 +510,13 @@ onValue(keyRef, snap => {
   if (!k) return;
   currentKey = k; localStorage.setItem("veenImgbbKey", k);
   if (document.activeElement !== $("aKey")) $("aKey").value = k;
-}, () => keyMsg("Could not read the saved key from Firebase.", "err"));
+}, () => keyMsg("Could not read saved key from Firebase.", "err"));
 async function saveKey(k, okText) {
   try {
     await set(keyRef, k);
     currentKey = k; localStorage.setItem("veenImgbbKey", k);
     keyMsg(okText, "ok"); toast("API key saved");
-  } catch { keyMsg("Could not save to Firebase. Check your database rules for /settings.", "err"); }
+  } catch { keyMsg("Could not save to Firebase. Check database rules for /settings.", "err"); }
 }
 $("keySave").addEventListener("click", () => {
   const k = $("aKey").value.trim();
@@ -319,9 +524,9 @@ $("keySave").addEventListener("click", () => {
   saveKey(k, "Key saved to Firebase and replaced the old one.");
 });
 $("keyReset").addEventListener("click", () => { $("aKey").value = DEFAULT_KEY; saveKey(DEFAULT_KEY, "Default key restored and saved."); });
-$("eye").addEventListener("click", () => { $("aKey").type = $("aKey").type === "text" ? "password" : "text"; });
-/* emoji picker for titles (any emoji can also be typed or pasted) */
-const EMOJI_CODES = [0x1F338,0x1F337,0x1F495,0x1F496,0x1F497,0x1F49C,0x1F499,0x2728,0x1F98B,0x1F380,0x1F9F8,0x1F431,0x1F436,0x1F430,0x1F43B,0x1F984,0x1F427,0x1F308,0x2B50,0x1F31F,0x1F319,0x1F353,0x1F370,0x1F36D,0x1F9C1,0x1F60A,0x1F970,0x1F60D,0x1F602,0x1F62D,0x1F97A,0x1F618,0x1F60E,0x1F917,0x1F44D,0x1F64C,0x1F389,0x1F4AB];
+
+/* Emoji Picker */
+const EMOJI_CODES = [0x1F338,0x1F337,0x1FAF6,0x1F495,0x1F496,0x1F497,0x1F49C,0x1F499,0x2728,0x1F98B,0x1F380,0x1F9F8,0x1F431,0x1F436,0x1F430,0x1F43B,0x1F984,0x1F427,0x1F308,0x2B50,0x1F31F,0x1F319,0x1F353,0x1F370,0x1F36D,0x1F9C1,0x1F60A,0x1F970,0x1F60D,0x1F602,0x1F62D,0x1F97A,0x1F618,0x1F60E,0x1F917,0x1F44D,0x1F64C,0x1F389,0x1F4AB];
 $("emojiPick").innerHTML = EMOJI_CODES.map(c => `<button type="button">${String.fromCodePoint(c)}</button>`).join("");
 $("emojiBtn").addEventListener("click", () => $("emojiPick").classList.toggle("hidden"));
 $("emojiPick").addEventListener("click", e => {
@@ -330,7 +535,8 @@ $("emojiPick").addEventListener("click", e => {
   i.value = i.value.slice(0, s) + b.textContent + i.value.slice(en);
   i.focus(); i.selectionStart = i.selectionEnd = s + b.textContent.length;
 });
-/* upload */
+
+/* Categories / Tags */
 function renderCats() {
   const all = [...BASE_CATS, ...customCats.map(c => c.name)], cur = $("aCat").value;
   $("aCat").innerHTML = all.map(c => `<option>${esc(c)}</option>`).join("");
@@ -348,16 +554,18 @@ async function addCat() {
   m.className = "msg err";
   if (!n) return m.textContent = "Type a tag name first.";
   if (all.some(c => c.toLowerCase() === n.toLowerCase())) return m.textContent = "That tag already exists.";
-  try { await set(push(ref(db, "categories")), n); $("newCat").value = ""; m.className = "msg ok"; m.textContent = "Tag added."; }
+  try { await set(push(ref(db, "categories")), n); $("newCat").value = ""; m.className = "msg ok"; m.textContent = "Tag added!"; toast("Tag added"); }
   catch { m.textContent = "Could not save. Check database rules for /categories."; }
 }
 $("addCat").addEventListener("click", addCat);
 $("newCat").addEventListener("keydown", e => e.key === "Enter" && addCat());
 $("catList").addEventListener("click", async e => {
-  const b = e.target.closest("[data-delcat]"); if (!b || !confirm("Remove this tag? Stickers keep it but it leaves the filter list.")) return;
-  try { await remove(ref(db, "categories/" + b.dataset.delcat)); } catch { toast("Remove failed", "alert"); }
+  const b = e.target.closest("[data-delcat]"); if (!b || !confirm("Remove this tag?")) return;
+  try { await remove(ref(db, "categories/" + b.dataset.delcat)); toast("Tag removed", "trash"); } catch { toast("Remove failed", "alert"); }
 });
 renderCats();
+
+/* Upload Sticker */
 let chosen = null;
 const setMsg = (t, c = "") => { $("upMsg").textContent = t; $("upMsg").className = "msg " + c; };
 function setFile(f) {
@@ -392,25 +600,7 @@ $("pub").addEventListener("click", async () => {
   b.disabled = false;
 });
 
-/* change password */
-$("pwChange").addEventListener("click", async () => {
-  const m = $("pwMsg"), o = $("pwOld").value, n = $("pwNew").value, n2 = $("pwNew2").value;
-  m.className = "msg err";
-  if (!o || !n) return m.textContent = "Fill in all fields.";
-  if (n.length < 6) return m.textContent = "New password must be at least 6 characters.";
-  if (n !== n2) return m.textContent = "The new passwords do not match.";
-  const b = $("pwChange"); b.disabled = true;
-  try {
-    if (!(await checkPassword(o))) m.textContent = "Current password is wrong.";
-    else {
-      await set(pwRef, await sha(n));
-      ["pwOld", "pwNew", "pwNew2"].forEach(id => $(id).value = "");
-      m.className = "msg ok"; m.textContent = "Password changed."; toast("Password changed", "check");
-    }
-  } catch { m.textContent = "Could not save. Check your database rules for /settings."; }
-  b.disabled = false;
-});
-/* visitors (read-only stats) */
+/* Overview Stats */
 onValue(ref(db, "stats"), snap => {
   const v = snap.val() || {}, daily = v.daily || {}, fmt = n => Number(n || 0).toLocaleString();
   const key = d => d.toISOString().slice(0, 10);
@@ -419,42 +609,42 @@ onValue(ref(db, "stats"), snap => {
   $("vTotal").textContent = fmt(v.visits);
   $("vToday").textContent = fmt(daily[key(new Date())]);
   $("vWeek").textContent = fmt(week);
+  if (v.downloads != null) $("vDownloads").textContent = fmt(v.downloads);
 });
-/* manage */
-onValue(stickersRef, snap => {
-  const list = Object.entries(snap.val() || {}).map(([id, d]) => ({ id, ...d })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+
+/* Manage Stickers List & Search */
+function renderManage() {
+  const q = ($("mSearch").value || "").trim().toLowerCase();
+  const list = allStickers.filter(s => !q || (s.title || "").toLowerCase().includes(q) || (s.category || "").toLowerCase().includes(q));
+  $("mCount").textContent = allStickers.length;
+  $("vStickers").textContent = allStickers.length.toLocaleString();
   $("manage").innerHTML = list.length ? list.map(s => `
-    <div class="row"><img src="${esc(s.url)}" alt=""><b>${esc(s.title)}</b><span class="badge">${esc(s.category)}</span>
-    <button class="x" data-del="${s.id}" aria-label="Delete">${icon("trash")}</button></div>`).join("")
-    : `<div class="hint">No stickers yet.</div>`;
+    <div class="row">
+      <img src="${esc(s.url)}" alt="">
+      <div class="row-info">
+        <b>${esc(s.title)}</b>
+        <div class="row-meta">
+          <span class="badge">${esc(s.category)}</span>
+          <span>${icon("heart")} ${s.likes || 0}</span>
+          <span>${icon("dl")} ${s.downloads || 0}</span>
+        </div>
+      </div>
+      <button class="x" data-del="${s.id}" aria-label="Delete">${icon("trash")}</button>
+    </div>`).join("")
+    : `<div class="hint">No stickers found.</div>`;
+}
+onValue(stickersRef, snap => {
+  allStickers = Object.entries(snap.val() || {}).map(([id, d]) => ({ id, ...d })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+  renderManage();
 });
+$("mSearch").addEventListener("input", renderManage);
 $("manage").addEventListener("click", async e => {
-  const b = e.target.closest("[data-del]"); if (!b || !confirm("Delete this sticker?")) return;
+  const b = e.target.closest("[data-del]"); if (!b || !confirm("Delete this sticker for everyone?")) return;
   try { await update(ref(db), { ["stickers/" + b.dataset.del]: null, "stats/stickers": increment(-1) }); toast("Sticker deleted", "trash"); }
   catch { toast("Delete failed", "alert"); }
 });
 </script>
-<style>
-#bfly{position:fixed;left:0;top:0;width:78px;height:78px;z-index:60;pointer-events:none;opacity:0;transition:opacity 1s;filter:drop-shadow(0 6px 8px rgba(190,120,220,.35))}
-#bfly.on{opacity:1}#bfly.scared .w{animation-duration:.08s}
-#bfly svg{width:100%;height:100%;overflow:visible}
-#bfly .w{transform-origin:50px 50px;animation:flap .32s ease-in-out infinite alternate}
-@keyframes flap{from{transform:scaleX(1)}to{transform:scaleX(.18)}}
-.trail{position:fixed;z-index:59;pointer-events:none;width:14px;height:14px;color:#ff8cc8;animation:fade 1s forwards}
-.trail svg{width:100%;height:100%;fill:currentColor}
-@keyframes fade{to{opacity:0;transform:translateY(24px) scale(.2) rotate(40deg)}}
-@media(prefers-reduced-motion:reduce){#bfly .w{animation-duration:1s}}
-html[data-theme=dark]{--ink:#f3e8ff;--ink-soft:#c9b0e6;--glass:rgba(52,32,86,.55);--glass-b:rgba(255,255,255,.14);--shadow:0 10px 30px rgba(0,0,0,.4);--shadow-s:0 4px 14px rgba(0,0,0,.35);color-scheme:dark}
-html[data-theme=dark] body{background:linear-gradient(120deg,#1d1033,#2d1853,#1a2050,#1d1033);background-size:300% 300%}
-html[data-theme=dark] .search input,html[data-theme=dark] .btn:not(.dl):not(.primary),html[data-theme=dark] .pill:not(.active),html[data-theme=dark] .drop,html[data-theme=dark] .row,html[data-theme=dark] .x,html[data-theme=dark] .back{background:rgba(255,255,255,.09);color:var(--ink)}
-html[data-theme=dark] .imgw,html[data-theme=dark] .row img{background:rgba(255,255,255,.08)}
-html[data-theme=dark] .field{background:#2a1a4a;border-color:#4a3475;color:var(--ink)}
-html[data-theme=dark] .box{background:rgba(38,24,66,.92)}
-html[data-theme=dark] .card,html[data-theme=dark] .stat,html[data-theme=dark] nav{border-color:rgba(255,255,255,.15)}
-html[data-theme=dark] .badge{background:linear-gradient(135deg,#6b3a74,#4b3a85);color:#fff}
-html[data-theme=dark] .sp{opacity:.35}
-html[data-theme=dark] ::-webkit-scrollbar-thumb{background:#5a3c8a}
-html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!important}</style>
+
 <div id="bfly" aria-hidden="true">
 <svg viewBox="0 0 100 100">
 <defs>
@@ -463,7 +653,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 </defs>
 <g class="w"><path d="M50 48C30 6 2 12 8 38c3 13 28 18 42 12z" fill="url(#bg1)" stroke="#fff" stroke-width="2"/><path d="M50 52C34 58 12 62 20 82c7 12 26 2 30-26z" fill="url(#bg2)" stroke="#fff" stroke-width="2"/><circle cx="24" cy="28" r="6" fill="#fff" opacity=".7"/><circle cx="29" cy="74" r="4" fill="#fff" opacity=".7"/></g>
 <g class="w"><g transform="translate(100 0) scale(-1 1)"><path d="M50 48C30 6 2 12 8 38c3 13 28 18 42 12z" fill="url(#bg1)" stroke="#fff" stroke-width="2"/><path d="M50 52C34 58 12 62 20 82c7 12 26 2 30-26z" fill="url(#bg2)" stroke="#fff" stroke-width="2"/><circle cx="24" cy="28" r="6" fill="#fff" opacity=".7"/><circle cx="29" cy="74" r="4" fill="#fff" opacity=".7"/></g></g>
-<ellipse cx="50" cy="52" rx="4" ry="20" fill="#8a5fb8"/>
+<ellipse cx="50" cy="52" rx='4' ry='20' fill='#8a5fb8'/>
 <circle cx="50" cy="30" r="5" fill="#8a5fb8"/>
 <path d="M48 27C44 18 38 14 36 14M52 27c4-9 10-13 12-13" stroke="#8a5fb8" stroke-width="2" fill="none" stroke-linecap="round"/>
 <circle cx="36" cy="14" r="2" fill="#ff8cc8"/><circle cx="64" cy="14" r="2" fill="#ff8cc8"/>
@@ -472,9 +662,8 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 <script>
 (() => {
   const el = document.getElementById("bfly"), S = 78;
-  let x = -120, y = innerHeight * .4, vx = 2, vy = 0, tx = innerWidth * .5, ty = innerHeight * .3, t = 0, last = 0;
+  let x = -120, y = innerHeight * .4, vx = 2, vy = 0, tx = innerWidth * .5, ty = innerHeight * .3, t = 0, last = 0, boostUntil = 0;
   const pick = () => { tx = 60 + Math.random() * (innerWidth - 120); ty = 60 + Math.random() * (innerHeight - 140); };
-  let boostUntil = 0;
   addEventListener("pointerdown", e => {
     if (e.target.closest("input,select,textarea")) return;
     const cx = x + S / 2, cy = y + S / 2, dd = Math.hypot(e.clientX - cx, e.clientY - cy);
@@ -488,7 +677,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
   function heart() {
     const h = document.createElement("div"); h.className = "trail";
     h.style.left = x + S / 2 + "px"; h.style.top = y + S / 2 + "px";
-    h.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 21s-8-5.500-8-11a4.500 4.500 0 0 1 8-2.800A4.500 4.500 0 0 1 20 10c0 5.500-8 11-8 11z"/></svg>';
+    h.innerHTML = '<svg viewBox="0 0 24 24"><path d="M12 21s-8-5.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.5-8 11-8 11z"/></svg>';
     document.body.appendChild(h); setTimeout(() => h.remove(), 1000);
   }
   function loop(now) {
@@ -507,31 +696,13 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
   }
   setTimeout(() => { el.classList.add("on"); requestAnimationFrame(loop); }, 400);
 })();
-</script>
-<script>
-/* render emojis consistently on every device (Twemoji) */
+/* Twemoji */
 (() => {
-  const ids = ["grid", "lbTitle", "manage", "emojiPick", "toast"];
+  const ids = ["manage", "emojiPick", "toast"];
   const run = el => window.twemoji && twemoji.parse(el, { folder: "svg", ext: ".svg" });
   const mo = new MutationObserver(m => m.forEach(r => run(r.target.nodeType === 1 ? r.target : r.target.parentElement || document.body)));
   addEventListener("load", () => ids.forEach(id => { const el = document.getElementById(id); if (el) { run(el); mo.observe(el, { childList: true, subtree: true, characterData: true }); } }));
-})();</script>
+})();
+</script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
