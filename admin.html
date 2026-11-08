@@ -171,6 +171,19 @@ html[data-theme=dark] .drop{border-color:#8f74d8}html[data-theme=dark] .drop.ove
         <div class="vstat"><b id="vWeek">0</b><small>Last 7 days</small></div>
       </div>
     </section>
+    <!-- Password -->
+    <section class="card glass">
+      <h2><svg class="i"><use href="#i-lock"/></svg>Change Password</h2>
+      <p class="hint">The new password works on every device. Use at least 6 characters.</p>
+      <label for="pwOld">Current password</label>
+      <input class="field" id="pwOld" type="password" autocomplete="current-password">
+      <label for="pwNew">New password</label>
+      <input class="field" id="pwNew" type="password" autocomplete="new-password">
+      <label for="pwNew2">Repeat new password</label>
+      <input class="field" id="pwNew2" type="password" autocomplete="new-password">
+      <div class="msg" id="pwMsg"></div>
+      <button class="btn primary" id="pwChange"><svg class="i"><use href="#i-save"/></svg>Update password</button>
+    </section>
     <!-- Tags -->
     <section class="card glass">
       <h2><svg class="i"><use href="#i-tag"/></svg>Tags (Categories)</h2>
@@ -213,7 +226,7 @@ html[data-theme=dark] .drop{border-color:#8f74d8}html[data-theme=dark] .drop.ove
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, onValue, push, set, remove, update, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, onValue, push, set, get, remove, update, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRMiavzTYf_WX2uUoAwTO3idRx8suy1VM",
@@ -260,9 +273,23 @@ $("theme").addEventListener("click", () => {
 /* login (session-based) */
 function showPanel() { $("login").classList.add("hidden"); $("panel").classList.remove("hidden"); }
 if (sessionStorage.getItem("veenAdmin") === "1") showPanel();
-function tryLogin() {
-  if ($("pw").value === ADMIN_PASSWORD) { sessionStorage.setItem("veenAdmin", "1"); showPanel(); }
-  else $("authMsg").textContent = "Incorrect password.";
+const pwRef = ref(db, "settings/adminHash");
+async function sha(text) {
+  if (!crypto?.subtle) throw new Error("Secure context required");
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode("veen:" + text));
+  return [...new Uint8Array(buf)].map(b => b.toString(16).padStart(2, "0")).join("");
+}
+/* the password is stored in Firebase only as a hash; until it is changed the default password works */
+async function checkPassword(pw) {
+  const stored = (await get(pwRef)).val();
+  return (await sha(pw)) === (stored || await sha(ADMIN_PASSWORD));
+}
+async function tryLogin() {
+  const m = $("authMsg"); m.textContent = "";
+  try {
+    if (await checkPassword($("pw").value)) { sessionStorage.setItem("veenAdmin", "1"); showPanel(); }
+    else m.textContent = "Incorrect password.";
+  } catch { m.textContent = "Could not check the password. Check your connection."; }
 }
 $("pwGo").addEventListener("click", tryLogin);
 $("pw").addEventListener("keydown", e => e.key === "Enter" && tryLogin());
@@ -365,6 +392,24 @@ $("pub").addEventListener("click", async () => {
   b.disabled = false;
 });
 
+/* change password */
+$("pwChange").addEventListener("click", async () => {
+  const m = $("pwMsg"), o = $("pwOld").value, n = $("pwNew").value, n2 = $("pwNew2").value;
+  m.className = "msg err";
+  if (!o || !n) return m.textContent = "Fill in all fields.";
+  if (n.length < 6) return m.textContent = "New password must be at least 6 characters.";
+  if (n !== n2) return m.textContent = "The new passwords do not match.";
+  const b = $("pwChange"); b.disabled = true;
+  try {
+    if (!(await checkPassword(o))) m.textContent = "Current password is wrong.";
+    else {
+      await set(pwRef, await sha(n));
+      ["pwOld", "pwNew", "pwNew2"].forEach(id => $(id).value = "");
+      m.className = "msg ok"; m.textContent = "Password changed."; toast("Password changed", "check");
+    }
+  } catch { m.textContent = "Could not save. Check your database rules for /settings."; }
+  b.disabled = false;
+});
 /* visitors (read-only stats) */
 onValue(ref(db, "stats"), snap => {
   const v = snap.val() || {}, daily = v.daily || {}, fmt = n => Number(n || 0).toLocaleString();
@@ -473,6 +518,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 })();</script>
 </body>
 </html>
+
 
 
 
