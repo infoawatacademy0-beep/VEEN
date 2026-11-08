@@ -225,6 +225,7 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
     <h1>VEEN Sticker World</h1>
     <p>A soft, sparkly place to collect the cutest stickers. Like your favorites and download them for free.</p>
     <div class="stats">
+      <div class="stat glass"><span class="sic"><svg class="i"><use href="#i-users"/></svg></span><b id="stVisit">0</b><small>Total visitors</small></div>
       <div class="stat glass"><span class="sic"><svg class="i"><use href="#i-dl"/></svg></span><b id="stDl">0</b><small>Downloads</small></div>
       <div class="stat glass"><span class="sic"><svg class="i"><use href="#i-grid"/></svg></span><b id="stCount">0</b><small>Stickers</small></div>
     </div>
@@ -465,6 +466,8 @@ if (!sessionStorage.getItem("veenVisited")) {
   const day = new Date().toISOString().slice(0, 10);
   update(ref(db, "stats"), { visits: increment(1), ["daily/" + day]: increment(1) }).catch(() => {});
 }
+onValue(ref(db, "stats/visits"), s => countTo("stVisit", s.val() || 0));
+
 /* sorting, result count, skeletons, image fallback, back to top */
 let sortBy = "new";
 const sorted = () => {
@@ -636,6 +639,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 </script>
 </body>
 </html>
+
 
 
 
