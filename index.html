@@ -459,11 +459,6 @@ function updateStats() {
   countTo("stDl", stickers.reduce((a, s) => a + (s.downloads || 0), 0));
   countTo("stCount", stickers.length);
 }
-if (!sessionStorage.getItem("veenVisited")) {
-  sessionStorage.setItem("veenVisited", "1");
-  update(ref(db, "stats"), { visits: increment(1) }).catch(() => {});
-}
-onValue(ref(db, "stats/visits"), s => countTo("stVisit", s.val() || 0));
 /* sorting, result count, skeletons, image fallback, back to top */
 let sortBy = "new";
 const sorted = () => {
@@ -635,6 +630,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 </script>
 </body>
 </html>
+
 
 
 
