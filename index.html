@@ -185,7 +185,7 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
 }
 @media(max-width:360px){.stat small{font-size:.68rem}.grid{gap:8px}.btn{font-size:.75rem}}
 @media(hover:none){.pill:hover,.btn:hover,.gearbtn:hover{transform:none}}
-</style><style id="del">.card{position:relative}.del{position:absolute;top:18px;right:18px;z-index:2;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);color:#e0457b;box-shadow:var(--shadow-s);transition:.2s}.del:hover{transform:scale(1.12);background:#e0457b;color:#fff}html[data-theme=dark] .del{background:rgba(40,20,70,.9);color:#ff8fbf}</style></head>
+</style><style id="del">.card{position:relative}.del{position:absolute;top:18px;right:18px;z-index:2;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);color:#e0457b;box-shadow:var(--shadow-s);transition:.2s}.del:hover{transform:scale(1.12);background:#e0457b;color:#fff}html[data-theme=dark] .del{background:rgba(40,20,70,.9);color:#ff8fbf}</style><style id="lbcss">.imgw{cursor:zoom-in}.lbox{max-width:520px;text-align:center;position:relative}.lbimg{border-radius:28px;background:linear-gradient(135deg,#fff,#fdeaff);padding:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}.lbimg img{max-width:100%;max-height:55vh;object-fit:contain}.lbox h3{font-size:1.3rem;font-weight:700;margin-bottom:8px}.lbclose{position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);color:var(--ink);box-shadow:var(--shadow-s)}.lbox .btn{padding:13px 14px;font-size:1rem}html[data-theme=dark] .lbimg{background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.2),rgba(255,255,255,.05))}html[data-theme=dark] .lbclose{background:rgba(40,20,70,.9)}</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -225,7 +225,6 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
     <h1>VEEN Sticker World</h1>
     <p>A soft, sparkly place to collect the cutest stickers. Like your favorites and download them for free.</p>
     <div class="stats">
-      <div class="stat glass"><span class="sic"><svg class="i"><use href="#i-users"/></svg></span><b id="stVisit">0</b><small>Visitors</small></div>
       <div class="stat glass"><span class="sic"><svg class="i"><use href="#i-dl"/></svg></span><b id="stDl">0</b><small>Downloads</small></div>
       <div class="stat glass"><span class="sic"><svg class="i"><use href="#i-grid"/></svg></span><b id="stCount">0</b><small>Stickers</small></div>
     </div>
@@ -239,6 +238,18 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
   <a id="lockBtn" href="admin.html" aria-label="Admin" style="color:inherit"><svg class="i" style="width:16px;height:16px"><use href="#i-lock"/></svg></a>
 </footer>
 
+<div class="modal" id="lb">
+  <div class="box glass lbox">
+    <button class="lbclose" data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button>
+    <div class="lbimg"><img id="lbImg" alt=""></div>
+    <h3 id="lbTitle"></h3>
+    <span class="badge" id="lbCat"></span>
+    <div class="acts" style="margin-top:14px">
+      <button class="btn like" id="lbLike"></button>
+      <button class="btn dl" id="lbDl"></button>
+    </div>
+  </div>
+</div>
 <div class="modal" id="setModal">
   <div class="box glass">
     <h2><span><svg class="i"><use href="#i-gear"/></svg>Settings</span><button data-close aria-label="Close"><svg class="i"><use href="#i-x"/></svg></button></h2>
@@ -357,14 +368,13 @@ function renderGrid() {
       <h3 title="${esc(s.title)}">${esc(s.title)}</h3>
       <div class="meta">
         <span class="badge">${esc(s.category)}</span>
-        <span class="views">${icon("eye", "width:14px;height:14px")}${s.views || 0}</span>
       </div>
       <div class="acts">
         <button class="btn like${liked.has(s.id) ? " on" : ""}" data-act="like">${icon("heart")}<span style="display:inline">${s.likes || 0}</span></button>
         <button class="btn dl" data-act="dl" aria-label="Download">${icon("dl")}<span style="display:inline">${s.downloads || 0}</span></button>
       </div>
     </article>`).join("");
-  trackViews();
+
 }
 
 /* views: counted once per session when a card is seen */
@@ -383,6 +393,8 @@ function trackViews() {
 }
 
 $("grid").addEventListener("click", async e => {
+  const im = e.target.closest(".imgw");
+  if (im && !e.target.closest("[data-act]")) { openLb(im.closest(".card").dataset.id); return; }
   const btn = e.target.closest("[data-act]"); if (!btn) return;
   const id = btn.closest(".card").dataset.id, s = stickers.find(x => x.id === id);
   if (btn.dataset.act === "del") {
@@ -443,6 +455,7 @@ function countTo(id, n) {
   })(t0);
 }
 function updateStats() {
+  if (lbId) renderLb();
   countTo("stDl", stickers.reduce((a, s) => a + (s.downloads || 0), 0));
   countTo("stCount", stickers.length);
 }
@@ -474,6 +487,38 @@ onValue(ref(db, "categories"), snap => {
   CATS = [...BASE_CATS, ...names.map(name => ({ name, icon: "tag" }))];
   if (!CATS.some(c => c.name === activeCat)) activeCat = "All";
   renderPills(); renderGrid();
+});
+/* lightbox */
+let lbId = null;
+const lbEl = $("lb");
+function renderLb() {
+  const s = stickers.find(x => x.id === lbId);
+  if (!s) { lbEl.classList.remove("open"); lbId = null; return; }
+  $("lbImg").src = s.url; $("lbImg").alt = s.title || "";
+  $("lbTitle").textContent = s.title || ""; $("lbCat").textContent = s.category || "";
+  $("lbLike").className = "btn like" + (liked.has(s.id) ? " on" : "");
+  $("lbLike").innerHTML = `${icon("heart")}<span style="display:inline">${s.likes || 0}</span>`;
+  $("lbDl").innerHTML = `${icon("dl")}<span style="display:inline">Download &middot; ${s.downloads || 0}</span>`;
+}
+function openLb(id) { lbId = id; renderLb(); lbEl.classList.add("open"); }
+const closeLb = () => { lbEl.classList.remove("open"); lbId = null; };
+lbEl.addEventListener("mousedown", e => { if (e.target === lbEl) closeLb(); });
+lbEl.querySelector("[data-close]").addEventListener("click", closeLb);
+addEventListener("keydown", e => { if (e.key === "Escape") closeLb(); });
+$("lbLike").addEventListener("click", e => {
+  const id = lbId, on = !liked.has(id);
+  on ? liked.add(id) : liked.delete(id);
+  localStorage.setItem("veenLiked", JSON.stringify([...liked]));
+  update(ref(db, "stickers/" + id), { likes: increment(on ? 1 : -1) }).catch(() => toast("Could not update like", "alert"));
+  if (on) { const r = e.currentTarget.getBoundingClientRect(); burst((r.left + r.width / 2) / innerWidth, r.top / innerHeight, .4); }
+  renderLb();
+});
+$("lbDl").addEventListener("click", async e => {
+  const s = stickers.find(x => x.id === lbId); if (!s) return;
+  const b = e.currentTarget; b.disabled = true;
+  burst(.5, .6, 1);
+  update(ref(db, "stickers/" + s.id), { downloads: increment(1) }).catch(() => {});
+  await download(s); b.disabled = false;
 });
 /* realtime sync */
 onValue(stickersRef, snap => {
@@ -590,6 +635,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 </script>
 </body>
 </html>
+
 
 
 
