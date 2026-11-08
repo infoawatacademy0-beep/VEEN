@@ -110,7 +110,7 @@ html[data-theme=dark] .drop{border-color:#8f74d8}html[data-theme=dark] .drop.ove
   .toast{max-width:calc(100% - 24px);bottom:calc(20px + env(safe-area-inset-bottom))}
 }
 @media(hover:none){.btn:hover{transform:none}}
-</style></head>
+</style><style>.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}.chip{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;border-radius:999px;font-weight:600;font-size:.9rem;background:rgba(255,255,255,.7);box-shadow:var(--shadow-s)}.chip.custom{background:linear-gradient(135deg,#ffd0e8,#dccdff)}.chip button{display:flex;width:20px;height:20px;border-radius:50%;align-items:center;justify-content:center;background:#fff;color:#e0457b}.chip button svg{width:12px;height:12px}html[data-theme=dark] .chip{background:rgba(255,255,255,.09)}html[data-theme=dark] .chip.custom{background:linear-gradient(135deg,#6b3a74,#4b3a85)}</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute"><defs>
 <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 2l2.2 6.8L21 11l-6.8 2.2L12 20l-2.2-6.8L3 11l6.8-2.2z"/></symbol>
@@ -118,7 +118,7 @@ html[data-theme=dark] .drop{border-color:#8f74d8}html[data-theme=dark] .drop.ove
 <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></symbol>
 <symbol id="i-trash" viewBox="0 0 24 24"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6M10 11v6M14 11v6"/></symbol>
 <symbol id="i-grid" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/></symbol>
-<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.400 15a1.700 1.700 0 0 0 .3 1.800l.1.1a2 2 0 1 1-2.800 2.800l-.1-.1a1.700 1.700 0 0 0-1.800-.3 1.700 1.700 0 0 0-1 1.500V21a2 2 0 1 1-4 0v-.1a1.700 1.700 0 0 0-1.100-1.500 1.700 1.700 0 0 0-1.800.3l-.1.1a2 2 0 1 1-2.800-2.800l.1-.1a1.700 1.700 0 0 0 .3-1.800 1.700 1.700 0 0 0-1.500-1H3a2 2 0 1 1 0-4h.1a1.700 1.700 0 0 0 1.500-1.100 1.700 1.700 0 0 0-.3-1.800l-.1-.1a2 2 0 1 1 2.800-2.800l.1.1a1.700 1.700 0 0 0 1.800.3H9a1.700 1.700 0 0 0 1-1.500V3a2 2 0 1 1 4 0v.1a1.700 1.700 0 0 0 1 1.500 1.700 1.700 0 0 0 1.800-.3l.1-.1a2 2 0 1 1 2.800 2.800l-.1.1a1.700 1.700 0 0 0-.3 1.800V9a1.700 1.700 0 0 0 1.500 1H21a2 2 0 1 1 0 4h-.1a1.700 1.700 0 0 0-1.500 1z"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.800A9 9 0 1 1 11.200 3a7 7 0 0 0 9.800 9.800z"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
+<symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.400 15a1.700 1.700 0 0 0 .3 1.800l.1.1a2 2 0 1 1-2.800 2.800l-.1-.1a1.700 1.700 0 0 0-1.800-.3 1.700 1.700 0 0 0-1 1.500V21a2 2 0 1 1-4 0v-.1a1.700 1.700 0 0 0-1.100-1.500 1.700 1.700 0 0 0-1.800.3l-.1.1a2 2 0 1 1-2.800-2.800l.1-.1a1.700 1.700 0 0 0 .3-1.800 1.700 1.700 0 0 0-1.500-1H3a2 2 0 1 1 0-4h.1a1.700 1.700 0 0 0 1.500-1.100 1.700 1.700 0 0 0-.3-1.800l-.1-.1a2 2 0 1 1 2.800-2.800l.1.1a1.700 1.700 0 0 0 1.800.3H9a1.700 1.700 0 0 0 1-1.500V3a2 2 0 1 1 4 0v.1a1.700 1.700 0 0 0 1 1.500 1.700 1.700 0 0 0 1.800-.3l.1-.1a2 2 0 1 1 2.800 2.800l-.1.1a1.700 1.700 0 0 0-.3 1.800V9a1.700 1.700 0 0 0 1.500 1H21a2 2 0 1 1 0 4h-.1a1.700 1.700 0 0 0-1.500 1z"/></symbol><symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.800A9 9 0 1 1 11.200 3a7 7 0 0 0 9.800 9.800z"/></symbol><symbol id="i-tag" viewBox="0 0 24 24"><path d="M20.600 13.400l-7.200 7.200a2 2 0 0 1-2.800 0L2 12V2h10l8.600 8.600a2 2 0 0 1 0 2.800zM7 7h.01"/></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12"/></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6L9 17l-5-5"/></symbol>
 <symbol id="i-alert" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></symbol>
 <symbol id="i-key" viewBox="0 0 24 24"><circle cx="7.500" cy="15.500" r="4.500"/><path d="M10.700 12.300L21 2M16 7l3 3"/></symbol>
 <symbol id="i-image" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></symbol>
@@ -161,6 +161,17 @@ html[data-theme=dark] .drop{border-color:#8f74d8}html[data-theme=dark] .drop.ove
       <div class="msg" id="keyMsg"></div>
     </section>
 
+    <!-- Tags -->
+    <section class="card glass">
+      <h2><svg class="i"><use href="#i-tag"/></svg>Tags (Categories)</h2>
+      <p class="hint">Add your own tags. They appear as filter pills in the gallery and in the upload dropdown.</p>
+      <div class="inl">
+        <input class="field" id="newCat" maxlength="24" placeholder="New tag name">
+        <button class="btn sm" id="addCat" style="background:linear-gradient(135deg,#ff8cc8,#a98bff);color:#fff">Add</button>
+      </div>
+      <div class="msg" id="catMsg"></div>
+      <div id="catList" class="chips"></div>
+    </section>
     <!-- Upload -->
     <section class="card glass">
       <h2><svg class="i"><use href="#i-upload"/></svg>Add a Sticker</h2>
@@ -208,7 +219,8 @@ const stickersRef = ref(db, "stickers");
 
 const ADMIN_PASSWORD = "01vene01";
 const DEFAULT_KEY = "d2b78a9c4e5f6a7b8c9d0e1f2a3b4c5d";
-const CATS = ["Love", "Cute Animals", "Reactions", "Aesthetic"];
+const BASE_CATS = ["Love", "Cute Animals", "Reactions", "Aesthetic"];
+let customCats = [];
 const $ = id => document.getElementById(id);
 const icon = n => `<svg class="i"><use href="#i-${n}"/></svg>`;
 const esc = s => String(s ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
@@ -271,7 +283,33 @@ $("keySave").addEventListener("click", () => {
 $("keyReset").addEventListener("click", () => { $("aKey").value = DEFAULT_KEY; saveKey(DEFAULT_KEY, "Default key restored and saved."); });
 $("eye").addEventListener("click", () => { $("aKey").type = $("aKey").type === "text" ? "password" : "text"; });
 /* upload */
-$("aCat").innerHTML = CATS.map(c => `<option>${c}</option>`).join("");
+function renderCats() {
+  const all = [...BASE_CATS, ...customCats.map(c => c.name)], cur = $("aCat").value;
+  $("aCat").innerHTML = all.map(c => `<option>${esc(c)}</option>`).join("");
+  if (all.includes(cur)) $("aCat").value = cur;
+  $("catList").innerHTML = BASE_CATS.map(c => `<span class="chip">${icon("tag")}${esc(c)}</span>`).join("") +
+    customCats.map(c => `<span class="chip custom">${icon("tag")}${esc(c.name)}<button data-delcat="${c.id}" aria-label="Remove tag">${icon("x")}</button></span>`).join("");
+}
+onValue(ref(db, "categories"), snap => {
+  customCats = Object.entries(snap.val() || {}).map(([id, name]) => ({ id, name: String(name) }));
+  renderCats();
+});
+async function addCat() {
+  const n = $("newCat").value.trim().slice(0, 24), m = $("catMsg");
+  const all = [...BASE_CATS, ...customCats.map(c => c.name)];
+  m.className = "msg err";
+  if (!n) return m.textContent = "Type a tag name first.";
+  if (all.some(c => c.toLowerCase() === n.toLowerCase())) return m.textContent = "That tag already exists.";
+  try { await set(push(ref(db, "categories")), n); $("newCat").value = ""; m.className = "msg ok"; m.textContent = "Tag added."; }
+  catch { m.textContent = "Could not save. Check database rules for /categories."; }
+}
+$("addCat").addEventListener("click", addCat);
+$("newCat").addEventListener("keydown", e => e.key === "Enter" && addCat());
+$("catList").addEventListener("click", async e => {
+  const b = e.target.closest("[data-delcat]"); if (!b || !confirm("Remove this tag? Stickers keep it but it leaves the filter list.")) return;
+  try { await remove(ref(db, "categories/" + b.dataset.delcat)); } catch { toast("Remove failed", "alert"); }
+});
+renderCats();
 let chosen = null;
 const setMsg = (t, c = "") => { $("upMsg").textContent = t; $("upMsg").className = "msg " + c; };
 function setFile(f) {
@@ -395,6 +433,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 </script>
 </body>
 </html>
+
 
 
 
