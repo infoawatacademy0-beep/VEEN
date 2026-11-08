@@ -185,7 +185,7 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
 }
 @media(max-width:360px){.stat small{font-size:.68rem}.grid{gap:8px}.btn{font-size:.75rem}}
 @media(hover:none){.pill:hover,.btn:hover,.gearbtn:hover{transform:none}}
-</style><style id="del">.card{position:relative}.del{position:absolute;top:18px;right:18px;z-index:2;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);color:#e0457b;box-shadow:var(--shadow-s);transition:.2s}.del:hover{transform:scale(1.12);background:#e0457b;color:#fff}html[data-theme=dark] .del{background:rgba(40,20,70,.9);color:#ff8fbf}</style><style id="lbcss">.imgw{cursor:zoom-in}.lbox{max-width:520px;text-align:center;position:relative}.lbimg{border-radius:28px;background:linear-gradient(135deg,#fff,#fdeaff);padding:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}.lbimg img{max-width:100%;max-height:55vh;object-fit:contain}.lbox h3{font-size:1.3rem;font-weight:700;margin-bottom:8px}.lbclose{position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);color:var(--ink);box-shadow:var(--shadow-s)}.lbox .btn{padding:13px 14px;font-size:1rem}html[data-theme=dark] .lbimg{background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.2),rgba(255,255,255,.05))}html[data-theme=dark] .lbclose{background:rgba(40,20,70,.9)}</style><script defer src="https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js"></script><style>img.emoji{height:1.15em;width:1.15em;margin:0 .06em;vertical-align:-.2em;display:inline-block}</style></head>
+</style><style id="del">.card{position:relative}.del{position:absolute;top:18px;right:18px;z-index:2;width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.92);color:#e0457b;box-shadow:var(--shadow-s);transition:.2s}.del:hover{transform:scale(1.12);background:#e0457b;color:#fff}html[data-theme=dark] .del{background:rgba(40,20,70,.9);color:#ff8fbf}</style><style id="lbcss">.imgw{cursor:zoom-in}.lbox{max-width:520px;text-align:center;position:relative}.lbimg{border-radius:28px;background:linear-gradient(135deg,#fff,#fdeaff);padding:14px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}.lbimg img{max-width:100%;max-height:55vh;object-fit:contain}.lbox h3{font-size:1.3rem;font-weight:700;margin-bottom:8px}.lbclose{position:absolute;top:14px;right:14px;z-index:2;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.9);color:var(--ink);box-shadow:var(--shadow-s)}.lbox .btn{padding:13px 14px;font-size:1rem}html[data-theme=dark] .lbimg{background:radial-gradient(circle at 50% 40%,rgba(255,255,255,.2),rgba(255,255,255,.05))}html[data-theme=dark] .lbclose{background:rgba(40,20,70,.9)}</style><script defer src="https://cdn.jsdelivr.net/npm/@twemoji/api@15.1.0/dist/twemoji.min.js"></script><style>img.emoji{height:1.15em;width:1.15em;margin:0 .06em;vertical-align:-.2em;display:inline-block}</style><style>.sentinel{display:none;justify-content:center;gap:8px;padding:26px 0}.sentinel.on{display:flex}.sentinel i{width:12px;height:12px;border-radius:50%;background:linear-gradient(135deg,#ff8cc8,#a98bff);animation:hop 1s ease-in-out infinite}.sentinel i:nth-child(2){animation-delay:.15s}.sentinel i:nth-child(3){animation-delay:.3s}@keyframes hop{0%,100%{transform:translateY(0);opacity:.5}50%{transform:translateY(-10px);opacity:1}}</style></head>
 <body>
 <svg width="0" height="0" style="position:absolute">
   <defs>
@@ -232,6 +232,7 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
     <div class="pills" id="pills"></div>
   </section>
   <section class="grid" id="grid"></section>
+  <div class="sentinel" id="sentinel"><i></i><i></i><i></i></div>
 </main>
 
 <footer>
@@ -264,7 +265,7 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, onValue, update, remove, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, onValue, update, get, query, orderByChild, limitToLast, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRMiavzTYf_WX2uUoAwTO3idRx8suy1VM",
@@ -352,6 +353,7 @@ $("clr").addEventListener("click", () => { $("q").value = ""; query = ""; $("clr
 
 /* grid */
 let loaded = false;
+const seen = new Set();
 const isAdmin = () => sessionStorage.getItem("veenAdmin") === "1";
 function renderGrid() {
   if (!loaded) return;
@@ -363,7 +365,7 @@ function renderGrid() {
     return;
   }
   $("grid").innerHTML = list.map((s, i) => `
-    <article class="card glass" style="animation-delay:${Math.min(i, 12) * 40}ms" data-id="${s.id}">
+    <article class="card glass" style="${seen.has(s.id) ? "animation:none" : `animation-delay:${Math.min(i, 12) * 40}ms`}" data-id="${s.id}">
       ${isAdmin() ? `<button class="del" data-act="del" aria-label="Remove sticker">${icon("trash")}</button>` : ""}
       <div class="imgw"><img src="${esc(s.url)}" alt="${esc(s.title)}" loading="lazy"></div>
       <h3 title="${esc(s.title)}">${esc(s.title)}</h3>
@@ -400,7 +402,7 @@ $("grid").addEventListener("click", async e => {
   const id = btn.closest(".card").dataset.id, s = stickers.find(x => x.id === id);
   if (btn.dataset.act === "del") {
     if (!isAdmin() || !confirm("Remove this sticker for everyone?")) return;
-    remove(ref(db, "stickers/" + id)).then(() => toast("Sticker removed", "trash")).catch(() => toast("Remove failed. Check database rules.", "alert"));
+    update(ref(db), { ["stickers/" + id]: null, "stats/stickers": increment(-1) }).then(() => toast("Sticker removed", "trash")).catch(() => toast("Remove failed. Check database rules.", "alert"));
     return;
   }
   if (btn.dataset.act === "like") {
@@ -412,7 +414,7 @@ $("grid").addEventListener("click", async e => {
   } else if (s) {
     btn.disabled = true;
     burst(.5, .6, 1);
-    update(ref(db, "stickers/" + id), { downloads: increment(1) }).catch(() => {});
+    update(ref(db), { ["stickers/" + id + "/downloads"]: increment(1), "stats/downloads": increment(1) }).catch(() => {});
     await download(s);
     btn.disabled = false;
   }
@@ -467,6 +469,20 @@ if (!sessionStorage.getItem("veenVisited")) {
   update(ref(db, "stats"), { visits: increment(1), ["daily/" + day]: increment(1) }).catch(() => {});
 }
 onValue(ref(db, "stats/visits"), s => countTo("stVisit", s.val() || 0));
+onValue(ref(db, "stats/downloads"), s => { if (s.val() !== null) countTo("stDl", s.val()); });
+onValue(ref(db, "stats/stickers"), s => { if (s.val() !== null) countTo("stCount", Math.max(0, s.val())); });
+/* one-time counter setup for older data (only runs if counters do not exist yet) */
+(async () => {
+  try {
+    const [d, n] = await Promise.all([get(ref(db, "stats/downloads")), get(ref(db, "stats/stickers"))]);
+    if (d.exists() && n.exists()) return;
+    const all = Object.values((await get(stickersRef)).val() || {});
+    const up = {};
+    if (!d.exists()) up.downloads = all.reduce((a, s) => a + (s.downloads || 0), 0);
+    if (!n.exists()) up.stickers = all.length;
+    await update(ref(db, "stats"), up);
+  } catch {}
+})();
 
 /* sorting, result count, skeletons, image fallback, back to top */
 let sortBy = "new";
@@ -521,16 +537,34 @@ $("lbDl").addEventListener("click", async e => {
   const s = stickers.find(x => x.id === lbId); if (!s) return;
   const b = e.currentTarget; b.disabled = true;
   burst(.5, .6, 1);
-  update(ref(db, "stickers/" + s.id), { downloads: increment(1) }).catch(() => {});
+  update(ref(db), { ["stickers/" + s.id + "/downloads"]: increment(1), "stats/downloads": increment(1) }).catch(() => {});
   await download(s); b.disabled = false;
 });
-/* realtime sync */
-onValue(stickersRef, snap => {
-  const v = snap.val() || {};
-  stickers = Object.entries(v).map(([id, d]) => ({ id, ...d })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-  loaded = true; renderGrid(); updateStats();
-}, err => { $("grid").innerHTML = `<div class="empty glass">${icon("alert")}<div>Could not connect to the database.</div></div>`; console.error(err); });
-
+/* realtime sync with paging: only the newest PAGE stickers load first, more load while scrolling */
+const PAGE = 12;
+let limit = PAGE, exhausted = false, loadingMore = false, unsub = null;
+function listen() {
+  unsub?.();
+  unsub = onValue(query(stickersRef, orderByChild("createdAt"), limitToLast(limit)), snap => {
+    const v = snap.val() || {};
+    stickers = Object.entries(v).map(([id, d]) => ({ id, ...d })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
+    exhausted = stickers.length < limit;
+    loadingMore = false; loaded = true;
+    renderGrid(); updateStats();
+    stickers.forEach(s => seen.add(s.id));
+  }, err => { $("grid").innerHTML = `<div class="empty glass">${icon("alert")}<div>Could not connect to the database.</div></div>`; console.error(err); });
+}
+const sentinel = $("sentinel");
+const moreIO = new IntersectionObserver(es => {
+  if (es[0].isIntersecting && loaded && !exhausted && !loadingMore) { loadingMore = true; limit += PAGE; listen(); }
+}, { rootMargin: "500px" });
+function checkMore() {
+  sentinel.classList.toggle("on", loaded && !exhausted);
+  moreIO.disconnect(); moreIO.observe(sentinel);
+}
+const _render = renderGrid;
+renderGrid = function () { _render(); checkMore(); };
+listen();
 addEventListener("keydown", e => { if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === "a") { e.preventDefault(); location.href = "admin.html"; } });
 /* settings */
 const settings = Object.assign({ dark: true, sparkles: true, butterfly: true }, JSON.parse(localStorage.getItem("veenSettings") || "{}"));
@@ -647,6 +681,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 })();</script>
 </body>
 </html>
+
 
 
 

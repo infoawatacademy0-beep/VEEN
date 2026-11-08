@@ -213,7 +213,7 @@ html[data-theme=dark] .drop{border-color:#8f74d8}html[data-theme=dark] .drop.ove
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, onValue, push, set, remove } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, onValue, push, set, remove, update, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRMiavzTYf_WX2uUoAwTO3idRx8suy1VM",
@@ -356,7 +356,8 @@ $("pub").addEventListener("click", async () => {
     if (!res.ok || !json.success) throw new Error(json?.error?.message || "ImgBB upload failed. Check your API key.");
     const url = json.data.url || json.data.display_url;
     setMsg("Saving to database...");
-    await set(push(stickersRef), { title, category, url, createdAt: Date.now(), likes: 0, downloads: 0, views: 0 });
+    const nk = push(stickersRef).key;
+    await update(ref(db), { ["stickers/" + nk]: { title, category, url, createdAt: Date.now(), likes: 0, downloads: 0 }, "stats/stickers": increment(1) });
     setMsg("Sticker published!", "ok"); toast("Sticker published", "sparkle");
     $("aTitle").value = ""; chosen = null; $("file").value = "";
     $("prev").classList.add("hidden"); $("dropTxt").textContent = "Drag and drop an image here, or click to browse";
@@ -384,7 +385,7 @@ onValue(stickersRef, snap => {
 });
 $("manage").addEventListener("click", async e => {
   const b = e.target.closest("[data-del]"); if (!b || !confirm("Delete this sticker?")) return;
-  try { await remove(ref(db, "stickers/" + b.dataset.del)); toast("Sticker deleted", "trash"); }
+  try { await update(ref(db), { ["stickers/" + b.dataset.del]: null, "stats/stickers": increment(-1) }); toast("Sticker deleted", "trash"); }
   catch { toast("Delete failed", "alert"); }
 });
 </script>
@@ -472,6 +473,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 })();</script>
 </body>
 </html>
+
 
 
 
