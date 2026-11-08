@@ -265,7 +265,7 @@ html[data-theme=dark] .skel{background:linear-gradient(100deg,rgba(255,255,255,.
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getDatabase, ref, onValue, update, get, query, orderByChild, limitToLast, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
+import { getDatabase, ref, onValue, update, get, query as fbQuery, orderByChild, limitToLast, increment } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-database.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRMiavzTYf_WX2uUoAwTO3idRx8suy1VM",
@@ -545,7 +545,7 @@ const PAGE = 12;
 let limit = PAGE, exhausted = false, loadingMore = false, unsub = null;
 function listen() {
   unsub?.();
-  unsub = onValue(query(stickersRef, orderByChild("createdAt"), limitToLast(limit)), snap => {
+  unsub = onValue(fbQuery(stickersRef, orderByChild("createdAt"), limitToLast(limit)), snap => {
     const v = snap.val() || {};
     stickers = Object.entries(v).map(([id, d]) => ({ id, ...d })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
     exhausted = stickers.length < limit;
@@ -681,6 +681,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 })();</script>
 </body>
 </html>
+
 
 
 
