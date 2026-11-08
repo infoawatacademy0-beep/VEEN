@@ -459,6 +459,12 @@ function updateStats() {
   countTo("stDl", stickers.reduce((a, s) => a + (s.downloads || 0), 0));
   countTo("stCount", stickers.length);
 }
+/* visitor counting (once per session; shown to admin only) */
+if (!sessionStorage.getItem("veenVisited")) {
+  sessionStorage.setItem("veenVisited", "1");
+  const day = new Date().toISOString().slice(0, 10);
+  update(ref(db, "stats"), { visits: increment(1), ["daily/" + day]: increment(1) }).catch(() => {});
+}
 /* sorting, result count, skeletons, image fallback, back to top */
 let sortBy = "new";
 const sorted = () => {
@@ -630,6 +636,7 @@ html.no-bfly #bfly,html.no-bfly .trail,html.no-spark #sparkles{display:none!impo
 </script>
 </body>
 </html>
+
 
 
 
